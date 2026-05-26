@@ -1,4 +1,4 @@
-package helpers;
+package com.haritonov.uitests.helpers;
 
 import java.io.IOException;
 import java.io.InputStream;
