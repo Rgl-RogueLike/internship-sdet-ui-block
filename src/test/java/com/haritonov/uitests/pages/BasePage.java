@@ -1,28 +1,28 @@
 package com.haritonov.uitests.pages;
 
+import com.haritonov.uitests.helpers.Waiter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class BasePage {
 
     protected final WebDriver driver;
-    protected final WebDriverWait waiter;
+    protected final Waiter waiter;
 
-    public BasePage(WebDriver driver, WebDriverWait waiter) {
+    public BasePage(WebDriver driver) {
         this.driver = driver;
-        this.waiter = waiter;
+        this.waiter = new Waiter(driver);
         PageFactory.initElements(driver, this);
     }
 
     protected BasePage click(WebElement element) {
-        element.click();
+        waiter.clickWhenReady(element);
         return this;
     }
 
     protected String getText(WebElement element) {
-        return element.getText();
+        return waiter.getTextWhenVisible(element);
     }
 
     public abstract boolean isPageLoaded();
