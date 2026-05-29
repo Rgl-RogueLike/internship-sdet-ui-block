@@ -1,9 +1,12 @@
 package com.haritonov.uitests.tests.homepage;
 
+import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.HomePage;
 import com.haritonov.uitests.tests.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 public class HomePageTest extends BaseTest {
 
@@ -52,9 +55,27 @@ public class HomePageTest extends BaseTest {
     }
 
     @Test
-    public void testFooter() {
+    public void footerShouldBeVisibleAndContainAddressPhoneAndEmails() {
         HomePage homePage = new HomePage(driver);
         homePage.scrollToFooter();
-        String s = "s;";
+        Assert.assertTrue(homePage.isFooterVisible(), "Footer should be visible");
+        List<String> contacts = homePage.getAboutUsContactTexts();
+        Assert.assertFalse(contacts.isEmpty(), "Footer contact block should not be empty");
+
+        String addressPart = ParameterProvider.get("footer.address.part");
+        String phonePrefix = ParameterProvider.get("footer.phone.prefix");
+        String emailSign = ParameterProvider.get("footer.email.sign");
+
+        boolean hasAddress = contacts.stream()
+                .anyMatch(text -> text.contains(addressPart));
+        Assert.assertTrue(hasAddress, "Footer should contain address with + " + addressPart);
+
+        boolean hasPhone = contacts.stream()
+                .anyMatch(text -> text.contains(phonePrefix));
+        Assert.assertTrue(hasPhone, "Footer should contain phone number starting with " + phonePrefix);
+
+        boolean hasEmail = contacts.stream()
+                .anyMatch(text -> text.contains(emailSign));
+        Assert.assertTrue(hasEmail, "Footer should contain email address with " + emailSign);
     }
 }
