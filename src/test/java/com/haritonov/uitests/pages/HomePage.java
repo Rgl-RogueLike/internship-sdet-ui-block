@@ -2,6 +2,7 @@ package com.haritonov.uitests.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -47,6 +48,18 @@ public class HomePage extends BasePage{
 
     @FindBy(className = "ast-youtube")
     private WebElement headerYoutubeLink;
+
+    @FindBy(css = ".pp-slider-arrow.elementor-swiper-button-prev")
+    private WebElement coursesPrevButton;
+
+    @FindBy(css = ".pp-slider-arrow.elementor-swiper-button-next")
+    private WebElement coursesNextButton;
+
+    @FindBy(className = "swiper-wrapper")
+    private WebElement courseSlides;
+
+    @FindBy(css = "h4.pp-info-box-title")
+    private WebElement courseName;
 
     public HomePage(WebDriver driver, WebDriverWait waiter) {
         super(driver, waiter);
@@ -108,5 +121,37 @@ public class HomePage extends BasePage{
 
     public boolean isYoutubeLinkPresent() {
         return headerYoutubeLink.isDisplayed();
+    }
+
+    public boolean isCoursesPrevButtonVisible() {
+        return coursesPrevButton.isDisplayed();
+    }
+
+    public boolean isCoursesNextButtonVisible() {
+        return coursesNextButton.isDisplayed();
+    }
+
+    public boolean isCourseSliderVisible() {
+        return courseSlides.isDisplayed();
+    }
+
+    public HomePage clickCoursesPrev() {
+        coursesPrevButton.click();
+        return this;
+    }
+
+    public HomePage clickCoursesNext() {
+        coursesNextButton.click();
+        return this;
+    }
+
+    public String getActiveSlideTitle() {
+        return courseName.getText().trim();
+    }
+
+    public void scrollToCoursesSection() {
+        new Actions(driver)
+                .moveToElement(coursesNextButton)
+                .perform();
     }
 }
