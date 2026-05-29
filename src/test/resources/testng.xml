@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Way2Automation Suite">
+    <test name="Home Page Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.homepage.HomePageTest"/>
+        </classes>
+    </test>
+</suite>
