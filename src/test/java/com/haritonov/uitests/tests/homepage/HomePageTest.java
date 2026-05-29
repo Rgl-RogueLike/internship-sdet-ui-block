@@ -30,4 +30,23 @@ public class HomePageTest extends BaseTest {
         Assert.assertTrue(homePage.isInstagramLinkPresent(), "Header should contain Instagram link");
         Assert.assertTrue(homePage.isYoutubeLinkPresent(), "Header should contain YouTube link");
     }
+
+    @Test
+    public void coursesSliderShouldNotSwitchWhenNavigationButtonsClicked() {
+        HomePage homePage = new HomePage(driver, waiter);
+        Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
+        homePage.scrollToCoursesSection();
+        Assert.assertTrue(homePage.isCourseSliderVisible(), "Courses section should be visible");
+        Assert.assertTrue(homePage.isCoursesPrevButtonVisible(), "Previous button should be visible");
+        Assert.assertTrue(homePage.isCoursesNextButtonVisible(), "Next button should be visible");
+
+        String currentSlideTitle = homePage.getActiveSlideTitle();
+        homePage.clickCoursesNext();
+        String nextSlideTitle = homePage.getActiveSlideTitle();
+        homePage.clickCoursesPrev().clickCoursesPrev();
+        String prevSlideTitle = homePage.getActiveSlideTitle();
+
+        Assert.assertEquals(currentSlideTitle, nextSlideTitle);
+        Assert.assertEquals(currentSlideTitle, prevSlideTitle);
+    }
 }
