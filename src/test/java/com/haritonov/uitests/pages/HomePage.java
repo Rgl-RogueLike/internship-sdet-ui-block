@@ -27,6 +27,27 @@ public class HomePage extends BasePage{
     @FindBy(id = "colophon")
     private WebElement footer;
 
+    @FindBy(css = "header a[href^='https://wa.me/'], header a[href^='tel:']")
+    private List<WebElement> headerPhones;
+
+    @FindBy(css = "header a[href^='skype:']")
+    private WebElement headerSkypeLink;
+
+    @FindBy(css = "header a[href^='mailto:']")
+    private WebElement headerEmailLink;
+
+    @FindBy(className = "ast-facebook")
+    private WebElement headerFacebookLink;
+
+    @FindBy(className = "ast-twitter")
+    private WebElement headerLinkedinLink;
+
+    @FindBy(className = "ast-instagram")
+    private WebElement headerInstagramLink;
+
+    @FindBy(className = "ast-youtube")
+    private WebElement headerYoutubeLink;
+
     public HomePage(WebDriver driver, WebDriverWait waiter) {
         super(driver, waiter);
     }
@@ -59,5 +80,33 @@ public class HomePage extends BasePage{
 
     public boolean isFooterVisible() {
         return footer.isDisplayed();
+    }
+
+    public int getHeaderPhoneCount() {
+        return headerPhones.size();
+    }
+
+    public boolean isSkypeLinkPresent() {
+        return headerSkypeLink.isDisplayed();
+    }
+
+    public boolean isEmailLinkPresent() {
+        return headerEmailLink.isDisplayed();
+    }
+
+    public boolean isFacebookLinkPresent() {
+        return headerFacebookLink.isDisplayed();
+    }
+
+    public boolean isLinkedinLinkPresent() {
+        return headerLinkedinLink.isDisplayed();
+    }
+
+    public boolean isInstagramLinkPresent() {
+        return headerInstagramLink.isDisplayed();
+    }
+
+    public boolean isYoutubeLinkPresent() {
+        return headerYoutubeLink.isDisplayed();
     }
 }
