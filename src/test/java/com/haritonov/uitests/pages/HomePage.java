@@ -88,6 +88,10 @@ public class HomePage extends BasePage {
     }
 
     public boolean isRegistrationVisible() {
+        if (registrationButtons.isEmpty()) {
+            return false;
+        }
+        waiter.waitForVisibility(registrationButtons.get(0));
         return !registrationButtons.isEmpty() && registrationButtons.get(0).isDisplayed();
     }
 
@@ -97,46 +101,59 @@ public class HomePage extends BasePage {
     }
 
     public boolean isFooterVisible() {
+        waiter.waitForVisibility(footer);
         return footer.isDisplayed();
     }
 
     public int getHeaderPhoneCount() {
+        if (!headerPhones.isEmpty()) {
+            waiter.waitForVisibility(headerPhones.get(0));
+        }
         return headerPhones.size();
     }
 
     public boolean isSkypeLinkPresent() {
+        waiter.waitForVisibility(headerSkypeLink);
         return headerSkypeLink.isDisplayed();
     }
 
     public boolean isEmailLinkPresent() {
+        waiter.waitForVisibility(headerEmailLink);
         return headerEmailLink.isDisplayed();
     }
 
     public boolean isFacebookLinkPresent() {
+        waiter.waitForVisibility(headerFacebookLink);
         return headerFacebookLink.isDisplayed();
     }
 
     public boolean isLinkedinLinkPresent() {
+        waiter.waitForVisibility(headerLinkedinLink);
         return headerLinkedinLink.isDisplayed();
     }
 
     public boolean isInstagramLinkPresent() {
+        waiter.waitForVisibility(headerInstagramLink);
         return headerInstagramLink.isDisplayed();
     }
 
     public boolean isYoutubeLinkPresent() {
+        waiter.waitForVisibility(headerYoutubeLink);
         return headerYoutubeLink.isDisplayed();
     }
 
     public boolean isCoursesPrevButtonVisible() {
+        waiter.waitForVisibility(coursesPrevButton);
         return coursesPrevButton.isDisplayed();
     }
 
     public boolean isCoursesNextButtonVisible() {
+        waiter.waitForVisibility(coursesNextButton);
         return coursesNextButton.isDisplayed();
     }
 
     public boolean isCourseSliderVisible() {
+        waiter.waitForVisibility(coursesSlider);
         return coursesSlider.isDisplayed();
     }
 
