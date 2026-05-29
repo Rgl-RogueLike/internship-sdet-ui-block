@@ -63,6 +63,9 @@ public class HomePage extends BasePage {
     @FindBy(css = "h4.pp-info-box-title")
     private WebElement activeCourseTitle;
 
+    @FindBy(xpath = "//h4[contains(text(),'ABOUT US')]/ancestor::div[contains(@class,'elementor-column')]//span[@class='elementor-icon-list-text']")
+    private List<WebElement> aboutUsTextElements;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -183,5 +186,13 @@ public class HomePage extends BasePage {
         new Actions(driver)
                 .moveToElement(footer)
                 .perform();
+    }
+
+    public List<String> getAboutUsContactTexts() {
+        waiter.waitForVisibility(aboutUsTextElements.get(0));
+        return aboutUsTextElements.stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .toList();
     }
 }
