@@ -4,11 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class HomePage extends BasePage{
+public class HomePage extends BasePage {
 
     @FindBy(id = "masthead")
     private WebElement header;
@@ -25,8 +24,11 @@ public class HomePage extends BasePage{
     @FindBy(css = ".pp-info-box")
     private List<WebElement> courseCards;
 
-    @FindBy(id = "colophon")
+    @FindBy(css = ".elementor-location-footer")
     private WebElement footer;
+
+    @FindBy(css = ".elementor-location-footer .elementor-icon-list-text")
+    private List<WebElement> footerTextItems;
 
     @FindBy(css = "header a[href^='https://wa.me/'], header a[href^='tel:']")
     private List<WebElement> headerPhones;
@@ -56,19 +58,19 @@ public class HomePage extends BasePage{
     private WebElement coursesNextButton;
 
     @FindBy(className = "swiper-wrapper")
-    private WebElement courseSlides;
+    private WebElement coursesSlider;
 
     @FindBy(css = "h4.pp-info-box-title")
-    private WebElement courseName;
+    private WebElement activeCourseTitle;
 
-    public HomePage(WebDriver driver, WebDriverWait waiter) {
-        super(driver, waiter);
+    public HomePage(WebDriver driver) {
+        super(driver);
     }
 
     @Override
     public boolean isPageLoaded() {
         try {
-            waiter.until(WebDriver -> mainNavigation.isDisplayed());
+            waiter.waitForVisibility(mainNavigation);
             return true;
         } catch (Exception e) {
             return false;
@@ -76,10 +78,12 @@ public class HomePage extends BasePage{
     }
 
     public boolean isHeaderVisible() {
+        waiter.waitForVisibility(header);
         return header.isDisplayed();
     }
 
     public boolean isNavigationVisible() {
+        waiter.waitForVisibility(mainNavigation);
         return mainNavigation.isDisplayed();
     }
 
@@ -88,6 +92,7 @@ public class HomePage extends BasePage{
     }
 
     public boolean isCourseSectionVisible() {
+        waiter.waitForVisibility(coursesSectionTitle);
         return coursesSectionTitle.isDisplayed() && !courseCards.isEmpty();
     }
 
@@ -132,26 +137,34 @@ public class HomePage extends BasePage{
     }
 
     public boolean isCourseSliderVisible() {
-        return courseSlides.isDisplayed();
+        return coursesSlider.isDisplayed();
     }
 
     public HomePage clickCoursesPrev() {
-        coursesPrevButton.click();
+        click(coursesPrevButton);
         return this;
     }
 
     public HomePage clickCoursesNext() {
-        coursesNextButton.click();
+        click(coursesNextButton);
         return this;
     }
 
     public String getActiveSlideTitle() {
-        return courseName.getText().trim();
+        return getText(activeCourseTitle).trim();
     }
 
     public void scrollToCoursesSection() {
+        waiter.waitForVisibility(coursesNextButton);
         new Actions(driver)
                 .moveToElement(coursesNextButton)
+                .perform();
+    }
+
+    public void scrollToFooter() {
+        waiter.waitForVisibility(footer);
+        new Actions(driver)
+                .moveToElement(footer)
                 .perform();
     }
 }

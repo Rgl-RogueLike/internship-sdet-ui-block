@@ -8,19 +8,20 @@ import org.testng.annotations.Test;
 public class HomePageTest extends BaseTest {
 
     @Test
-    protected void mainElementsShouldBeVisibleWhenHomePageLoads() {
-        HomePage homePage = new HomePage(driver, waiter);
+    public void mainElementsShouldBeVisibleWhenHomePageLoads() {
+        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.isHeaderVisible(), "Header should be visible");
         Assert.assertTrue(homePage.isNavigationVisible(), "Navigate block should be visible");
         Assert.assertTrue(homePage.isRegistrationVisible(), "Registration button should be visible");
         Assert.assertTrue(homePage.isCourseSectionVisible(), "Courses section should be visible");
+        homePage.scrollToFooter();
         Assert.assertTrue(homePage.isFooterVisible(), "Footer should be visible");
     }
 
     @Test
     public void headerContactsShouldBePresentWhenHomePageLoads() {
-        HomePage homePage = new HomePage(driver, waiter);
+        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.getHeaderPhoneCount() > 0, "Header should contain phone numbers");
         Assert.assertTrue(homePage.isSkypeLinkPresent(), "Header should contain Skype link");
@@ -33,7 +34,7 @@ public class HomePageTest extends BaseTest {
 
     @Test
     public void coursesSliderShouldNotSwitchWhenNavigationButtonsClicked() {
-        HomePage homePage = new HomePage(driver, waiter);
+        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         homePage.scrollToCoursesSection();
         Assert.assertTrue(homePage.isCourseSliderVisible(), "Courses section should be visible");
@@ -48,5 +49,12 @@ public class HomePageTest extends BaseTest {
 
         Assert.assertEquals(currentSlideTitle, nextSlideTitle);
         Assert.assertEquals(currentSlideTitle, prevSlideTitle);
+    }
+
+    @Test
+    public void testFooter() {
+        HomePage homePage = new HomePage(driver);
+        homePage.scrollToFooter();
+        String s = "s;";
     }
 }
