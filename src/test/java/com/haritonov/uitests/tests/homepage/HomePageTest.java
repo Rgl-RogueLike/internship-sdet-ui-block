@@ -50,8 +50,8 @@ public class HomePageTest extends BaseTest {
         homePage.clickCoursesPrev().clickCoursesPrev();
         String prevSlideTitle = homePage.getActiveSlideTitle();
 
-        Assert.assertEquals(currentSlideTitle, nextSlideTitle);
-        Assert.assertEquals(currentSlideTitle, prevSlideTitle);
+        Assert.assertEquals(currentSlideTitle, nextSlideTitle, "After clicking Next, slide title should not change (expected same as initial)");
+        Assert.assertEquals(currentSlideTitle, prevSlideTitle, "After clicking Prev twice, slide title should not change (expected same as initial)");
     }
 
     @Test
