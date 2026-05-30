@@ -3,6 +3,7 @@
     <test name="Home Page Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.homepage.HomePageTest"/>
+            <class name="com.haritonov.uitests.tests.navigation.NavigationTest"/>
         </classes>
     </test>
 </suite>
