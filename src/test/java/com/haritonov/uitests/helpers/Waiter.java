@@ -41,4 +41,8 @@ public class Waiter {
         element.click();
     }
 
+    public void waitForUrlContains(String urlFragment) {
+        wait.until(ExpectedConditions.urlContains(urlFragment));
+    }
+
 }
