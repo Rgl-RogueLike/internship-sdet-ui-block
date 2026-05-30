@@ -66,6 +66,12 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//h4[contains(text(),'ABOUT US')]/ancestor::div[contains(@class,'elementor-column')]//span[@class='elementor-icon-list-text']")
     private List<WebElement> aboutUsTextElements;
 
+    @FindBy(xpath = "//a[span[text()='All Courses']]")
+    private WebElement allCoursesMenu;
+
+    @FindBy(xpath = "//a[span[text()='Lifetime Membership']]")
+    private WebElement lifetimeMembershipLink;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -194,5 +200,14 @@ public class HomePage extends BasePage {
                 .map(WebElement::getText)
                 .map(String::trim)
                 .toList();
+    }
+
+    public LifetimeMembershipPage goToLifetimeMembership() {
+        new Actions(driver)
+                .moveToElement(allCoursesMenu)
+                .perform();
+        waiter.waitForVisibility(lifetimeMembershipLink);
+        lifetimeMembershipLink.click();
+        return new LifetimeMembershipPage(driver);
     }
 }
