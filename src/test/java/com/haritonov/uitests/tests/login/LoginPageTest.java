@@ -35,4 +35,22 @@ public class LoginPageTest extends BaseTest {
         String actualMessage = loginPage.getSuccessMessageText();
         Assert.assertEquals(expectedMessage, actualMessage, "Success message should be " + expectedMessage);
     }
+
+    @Test
+    public void shouldDisplayErrorWhenUsingInvalidCredentials() {
+        driver.get(ParameterProvider.get("login.url"));
+        LoginPage loginPage = new LoginPage(driver);
+
+        loginPage.enterUsername(ParameterProvider.get("login.invalid.username"))
+                .enterPassword(ParameterProvider.get("login.invalid.password"))
+                .enterUsernameDescription(ParameterProvider.get("login.username.description"));
+
+        Assert.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled after filling required fields");
+        loginPage.clickLoginButton();
+
+        Assert.assertTrue(loginPage.isErrorMessageVisible(), "Error message should apper for invalid credentials");
+        String expectedMessage = ParameterProvider.get("login.error.message");
+        String actualMessage = loginPage.getErrorMessageText();
+        Assert.assertEquals(expectedMessage, actualMessage, "Error message should be " + expectedMessage);
+    }
 }
