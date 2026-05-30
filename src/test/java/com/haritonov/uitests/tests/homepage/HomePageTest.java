@@ -4,15 +4,24 @@ import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.HomePage;
 import com.haritonov.uitests.tests.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class HomePageTest extends BaseTest {
 
+    private HomePage homePage;
+
+    @BeforeMethod
+    @Override
+    public void setUp() {
+        super.setUp();
+        homePage = new HomePage(driver);
+    }
+
     @Test
     public void mainElementsShouldBeVisibleWhenHomePageLoads() {
-        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.isHeaderVisible(), "Header should be visible");
         Assert.assertTrue(homePage.isNavigationVisible(), "Navigate block should be visible");
@@ -24,7 +33,6 @@ public class HomePageTest extends BaseTest {
 
     @Test
     public void headerContactsShouldBePresentWhenHomePageLoads() {
-        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.getHeaderPhoneCount() > 0, "Header should contain phone numbers");
         Assert.assertTrue(homePage.isSkypeLinkPresent(), "Header should contain Skype link");
@@ -37,7 +45,6 @@ public class HomePageTest extends BaseTest {
 
     @Test
     public void coursesSliderShouldNotSwitchWhenNavigationButtonsClicked() {
-        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         homePage.scrollToCoursesSection();
         Assert.assertTrue(homePage.isCourseSliderVisible(), "Courses section should be visible");
@@ -56,7 +63,6 @@ public class HomePageTest extends BaseTest {
 
     @Test
     public void footerShouldBeVisibleAndContainAddressPhoneAndEmails() {
-        HomePage homePage = new HomePage(driver);
         homePage.scrollToFooter();
         Assert.assertTrue(homePage.isFooterVisible(), "Footer should be visible");
         List<String> contacts = homePage.getAboutUsContactTexts();
