@@ -24,6 +24,9 @@ public class LoginPage extends BasePage{
     @FindBy(xpath = "//div[contains(text(),\"Username or password is incorrect\")]")
     private WebElement errorMessage;
 
+    @FindBy(xpath = "//a[contains(text(),\"Logout\")]")
+    private WebElement logoutLink;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -98,6 +101,11 @@ public class LoginPage extends BasePage{
     public String getErrorMessageText() {
         waiter.waitForVisibility(errorMessage);
         return errorMessage.getText();
+    }
+
+    public LoginPage clickLogout() {
+        click(logoutLink);
+        return this;
     }
 
 }
