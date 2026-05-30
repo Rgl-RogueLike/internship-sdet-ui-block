@@ -21,6 +21,9 @@ public class LoginPage extends BasePage{
     @FindBy(id = "formly_1_input_username_0")
     private WebElement usernameDescriptionField;
 
+    @FindBy(xpath = "//div[contains(text(),\"Username or password is incorrect\")]")
+    private WebElement errorMessage;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -85,6 +88,16 @@ public class LoginPage extends BasePage{
         usernameDescriptionField.clear();
         usernameDescriptionField.sendKeys(description);
         return this;
+    }
+
+    public boolean isErrorMessageVisible() {
+        waiter.waitForVisibility(errorMessage);
+        return errorMessage.isDisplayed();
+    }
+
+    public String getErrorMessageText() {
+        waiter.waitForVisibility(errorMessage);
+        return errorMessage.getText();
     }
 
 }
