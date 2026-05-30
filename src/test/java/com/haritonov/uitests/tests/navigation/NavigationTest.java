@@ -5,13 +5,22 @@ import com.haritonov.uitests.pages.HomePage;
 import com.haritonov.uitests.pages.LifetimeMembershipPage;
 import com.haritonov.uitests.tests.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class NavigationTest extends BaseTest {
 
+    private HomePage homePage;
+
+    @BeforeMethod
+    @Override
+    public void setUp() {
+        super.setUp();
+        homePage = new HomePage(driver);
+    }
+
     @Test
     public void navigationMenuShouldRemainVisibleAfterScrollingDown() {
-        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible at the top the page");
         homePage.scrollToFooter();
@@ -20,7 +29,6 @@ public class NavigationTest extends BaseTest {
 
     @Test
     public void shouldNavigateToLifetimeMembershipFromMenu() {
-        HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         LifetimeMembershipPage lifetimeMembershipPage = homePage.goToLifetimeMembership();
         Assert.assertTrue(lifetimeMembershipPage.isPageLoaded(), "Should be on Lifetime Member page");
