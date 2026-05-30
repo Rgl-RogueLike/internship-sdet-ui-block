@@ -19,6 +19,8 @@ public abstract class BaseTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         options.addArguments("--disable-notifications");
+        options.addArguments("--disable-features=PasswordLeakDetection");
+        options.addArguments("--disable-password-manager-reauthentication");
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver(options);
         waiter = new Waiter(driver);
