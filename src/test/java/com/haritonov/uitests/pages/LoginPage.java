@@ -15,6 +15,12 @@ public class LoginPage extends BasePage{
     @FindBy(css = ".btn.btn-danger")
     private WebElement loginButton;
 
+    @FindBy(xpath = "//p[contains(text(),\"You're logged in!!\")]")
+    private WebElement successMessage;
+
+    @FindBy(id = "formly_1_input_username_0")
+    private WebElement usernameDescriptionField;
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
@@ -39,4 +45,46 @@ public class LoginPage extends BasePage{
         waiter.waitForVisibility(loginButton);
         return !loginButton.isEnabled();
     }
+
+    public boolean isLoginButtonEnabled() {
+        waiter.waitForVisibility(loginButton);
+        return loginButton.isEnabled();
+    }
+
+    public LoginPage enterUsername(String username) {
+        waiter.waitForVisibility(usernameField);
+        usernameField.clear();
+        usernameField.sendKeys(username);
+        return this;
+    }
+
+    public LoginPage enterPassword(String password) {
+        waiter.waitForVisibility(passwordField);
+        passwordField.clear();
+        passwordField.sendKeys(password);
+        return this;
+    }
+
+    public LoginPage clickLoginButton() {
+        click(loginButton);
+        return this;
+    }
+
+    public boolean isSuccessMessageVisible() {
+        waiter.waitForVisibility(successMessage);
+        return successMessage.isDisplayed();
+    }
+
+    public String getSuccessMessageText() {
+        waiter.waitForVisibility(successMessage);
+        return successMessage.getText();
+    }
+
+    public LoginPage enterUsernameDescription(String description) {
+        waiter.waitForVisibility(usernameDescriptionField);
+        usernameDescriptionField.clear();
+        usernameDescriptionField.sendKeys(description);
+        return this;
+    }
+
 }
