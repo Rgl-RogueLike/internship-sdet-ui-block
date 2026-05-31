@@ -25,8 +25,8 @@ public class BankingManagerPageTest extends BaseTest {
 
     @Test
     public void shouldDisplaySuccessAlertWhenAddingCustomerWithValidData() {
-        managerPage.clickAddCustomerButton();
-        managerPage.enterFirstName(TestDataGenerator.getRandomFirstName())
+        managerPage.clickAddCustomerButton()
+                .enterFirstName(TestDataGenerator.getRandomFirstName())
                 .enterLastName(TestDataGenerator.getRandomLastName())
                 .enterPostCode(TestDataGenerator.getRandomPostCode())
                 .submitAddCustomer();
@@ -34,5 +34,17 @@ public class BankingManagerPageTest extends BaseTest {
         String expectedMessage = ParameterProvider.get("banking.manager.success.message");
         String actualMessage = managerPage.acceptAlertAndGetText();
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Alert should confirm customer addition, but was: " + actualMessage);
+    }
+
+    @Test
+    public void shouldDisplayAlertWhenOpeningAccountForLastCreatedCustomer() {
+        managerPage.clickOpenCustomerButton()
+                .selectLastCustomer()
+                .selectCurrency(ParameterProvider.get("banking.manager.currency"))
+                .clickProcess();
+
+        String expectedMessage = ParameterProvider.get("banking.manager.account.success.message");
+        String actualMessage = managerPage.acceptAlertAndGetText();
+        Assert.assertTrue(actualMessage.contains(expectedMessage), "Alert should confirm account, but was: " + actualMessage);
     }
 }
