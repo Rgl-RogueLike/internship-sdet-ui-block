@@ -35,9 +35,9 @@ public class SampleFormTest extends BaseTest {
                 .enterPassword(TestDataGenerator.getRandomPassword())
                 .selectGender(TestDataGenerator.getRandomGender())
                 .selectHobby(ParameterProvider.get("sample.form.hobby"))
-                .enterAboutYourself(aboutText);
+                .enterAboutYourself(aboutText)
+                .clickRegister();
 
-        sampleFormPage.clickRegister();
         Assert.assertTrue(sampleFormPage.isSuccessMessageVisible(), "Success message should be visible after registration");
         String expectedMessage = ParameterProvider.get("sample.form.success.message");
         String actualMessage = sampleFormPage.getSuccessMessageText();
