@@ -1,0 +1,49 @@
+package com.haritonov.uitests.tests.banking;
+
+import com.haritonov.uitests.helpers.ParameterProvider;
+import com.haritonov.uitests.pages.BankManagerPage;
+import com.haritonov.uitests.pages.BankingHomePage;
+import com.haritonov.uitests.pages.CustomerAccountPage;
+import com.haritonov.uitests.tests.BaseTest;
+import com.haritonov.uitests.utils.TestDataGenerator;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class CustomerLoginTest extends BaseTest {
+
+    private CustomerAccountPage accountPage;
+    private String customerFullName;
+
+    @BeforeMethod
+    @Override
+    public void setUp() {
+        super.setUp();
+        driver.get(ParameterProvider.get("banking.url"));
+        BankingHomePage bankingHomePage = new BankingHomePage(driver);
+        Assert.assertTrue(bankingHomePage.isPageLoaded(), "Banking home page should be loaded");
+        BankManagerPage bankManagerPage = bankingHomePage.goToBankManagerPage();
+        customerFullName = bankManagerPage.createCustomerWithAccount(
+                TestDataGenerator.getRandomFirstName(),
+                TestDataGenerator.getRandomLastName(),
+                TestDataGenerator.getRandomPostCode(),
+                ParameterProvider.get("banking.manager.currency")
+        );
+        driver.get(ParameterProvider.get("banking.url"));
+        bankingHomePage = new BankingHomePage(driver);
+        accountPage = bankingHomePage.goToCustomerLogin().loginAs(customerFullName);
+    }
+
+    @Test
+    public void shouldDisplayWelcomeMessageAfterCustomerLogin() {
+        Assert.assertTrue(accountPage.isPageLoaded(), "Customer account page should be loaded");
+        String expectedGreeting = "Welcome " + customerFullName;
+        Assert.assertTrue(accountPage.getWelcomeMessage().contains(expectedGreeting), "Welcome message should contain the customer full name");
+
+        String amount = TestDataGenerator.getRandomAmount();
+        accountPage.depositAmount(amount);
+        Assert.assertTrue(accountPage.isDepositSuccessMessageVisible(), "Deposit success message should appear after depositing");
+        accountPage.refreshTransactionList();
+        Assert.assertTrue(accountPage.hasTransactionWithAmount(amount), "Transactions should contain the deposit of " + amount);
+    }
+}
