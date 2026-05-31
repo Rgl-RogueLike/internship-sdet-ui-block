@@ -12,6 +12,9 @@ public class BankingHomePage extends BasePage {
     @FindBy(xpath = "//button[text()='Bank Manager Login']")
     private WebElement bankManagerButton;
 
+    @FindBy(xpath = "//button[text()='Customer Login']")
+    private WebElement customerLoginButton;
+
     public BankingHomePage(WebDriver driver) {
         super(driver);
     }
@@ -29,5 +32,10 @@ public class BankingHomePage extends BasePage {
      public BankManagerPage goToBankManagerPage() {
         click(bankManagerButton);
         return new BankManagerPage(driver);
+     }
+
+     public CustomerLoginPage goToCustomerLogin() {
+        click(customerLoginButton);
+        return new CustomerLoginPage(driver);
      }
 }
