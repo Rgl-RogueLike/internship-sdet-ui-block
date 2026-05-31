@@ -37,4 +37,13 @@ public class TestDataGenerator {
     public static String getRandomPostCode() {
         return faker.address().zipCode();
     }
+
+    public static String getRandomAmount() {
+        return String.valueOf(
+                faker.number().numberBetween(
+                    Integer.parseInt(ParameterProvider.get("banking.customer.min.amount")),
+                    Integer.parseInt(ParameterProvider.get("banking.customer.max.amount"))
+                )
+        );
+    }
 }
