@@ -1,5 +1,6 @@
 package com.haritonov.uitests.helpers;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -43,6 +44,13 @@ public class Waiter {
 
     public void waitForUrlContains(String urlFragment) {
         wait.until(ExpectedConditions.urlContains(urlFragment));
+    }
+
+    public String waitForAlertAndAccept() {
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        String text = alert.getText();
+        alert.accept();
+        return text;
     }
 
 }
