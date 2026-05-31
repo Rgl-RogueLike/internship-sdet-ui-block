@@ -3,6 +3,9 @@ package com.haritonov.uitests.pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
+
+import java.util.List;
 
 public class BankManagerPage extends BasePage {
 
@@ -20,6 +23,18 @@ public class BankManagerPage extends BasePage {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement addCustomerSubmitButton;
+
+    @FindBy(xpath = "//button[@ng-click='openAccount()']")
+    private WebElement openCustomerButton;
+
+    @FindBy(id = "userSelect")
+    private WebElement customerSelect;
+
+    @FindBy(id = "currency")
+    private WebElement currencySelect;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement processButton;
 
     public BankManagerPage(WebDriver driver) {
         super(driver);
@@ -64,5 +79,29 @@ public class BankManagerPage extends BasePage {
 
     public String acceptAlertAndGetText() {
         return waiter.waitForAlertAndAccept();
+    }
+
+    public BankManagerPage clickOpenCustomerButton() {
+        click(openCustomerButton);
+        waiter.waitForVisibility(customerSelect);
+        return this;
+    }
+
+    public BankManagerPage selectLastCustomer() {
+        Select select = new Select(customerSelect);
+        List<WebElement> options = select.getOptions();
+        WebElement lastOption = options.get(options.size() - 1);
+        lastOption.click();
+        return this;
+    }
+
+    public BankManagerPage selectCurrency(String currency) {
+        new Select(currencySelect).selectByVisibleText(currency);
+        return this;
+    }
+
+    public BankManagerPage clickProcess() {
+        click(processButton);
+        return this;
     }
 }
