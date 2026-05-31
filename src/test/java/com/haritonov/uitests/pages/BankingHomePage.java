@@ -9,6 +9,9 @@ public class BankingHomePage extends BasePage {
     @FindBy(linkText = "Sample Form")
     private WebElement sampleFormButton;
 
+    @FindBy(xpath = "//button[text()='Bank Manager Login']")
+    private WebElement bankManagerButton;
+
     public BankingHomePage(WebDriver driver) {
         super(driver);
     }
@@ -23,4 +26,8 @@ public class BankingHomePage extends BasePage {
         click(sampleFormButton);
         return new SampleFormPage(driver);
     }
+     public BankManagerPage goToBankManagerPage() {
+        click(bankManagerButton);
+        return new BankManagerPage(driver);
+     }
 }
