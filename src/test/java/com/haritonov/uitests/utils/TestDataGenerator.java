@@ -33,4 +33,8 @@ public class TestDataGenerator {
                         ParameterProvider.get("faker.gender.other")
                 );
     }
+
+    public static String getRandomPostCode() {
+        return faker.address().zipCode();
+    }
 }
