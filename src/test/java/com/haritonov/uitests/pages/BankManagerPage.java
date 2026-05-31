@@ -95,6 +95,11 @@ public class BankManagerPage extends BasePage {
         return this;
     }
 
+    public BankManagerPage selectCustomerByName(String name) {
+        new Select(customerSelect).selectByVisibleText(name);
+        return this;
+    }
+
     public BankManagerPage selectCurrency(String currency) {
         new Select(currencySelect).selectByVisibleText(currency);
         return this;
@@ -103,5 +108,21 @@ public class BankManagerPage extends BasePage {
     public BankManagerPage clickProcess() {
         click(processButton);
         return this;
+    }
+
+    public String createCustomerWithAccount(String firstName, String lastName, String postCode, String currency) {
+        clickAddCustomerButton()
+                .enterFirstName(firstName)
+                .enterLastName(lastName)
+                .enterPostCode(postCode)
+                .submitAddCustomer();
+        acceptAlertAndGetText();
+
+        clickOpenCustomerButton()
+                .selectCustomerByName(firstName + " " + lastName)
+                .selectCurrency(currency)
+                .clickProcess();
+        acceptAlertAndGetText();
+        return firstName + " " + lastName;
     }
 }
