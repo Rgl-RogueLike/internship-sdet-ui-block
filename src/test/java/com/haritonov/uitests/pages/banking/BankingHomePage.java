@@ -1,5 +1,7 @@
-package com.haritonov.uitests.pages;
+package com.haritonov.uitests.pages.banking;
 
+import com.haritonov.uitests.pages.BasePage;
+import com.haritonov.uitests.pages.SampleFormPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

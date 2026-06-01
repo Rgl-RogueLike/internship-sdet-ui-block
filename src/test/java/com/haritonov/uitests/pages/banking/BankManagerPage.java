@@ -1,5 +1,6 @@
-package com.haritonov.uitests.pages;
+package com.haritonov.uitests.pages.banking;
 
+import com.haritonov.uitests.pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
