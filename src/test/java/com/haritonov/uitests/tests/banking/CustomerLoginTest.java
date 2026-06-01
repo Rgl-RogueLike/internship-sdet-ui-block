@@ -43,15 +43,20 @@ public class CustomerLoginTest extends BaseTest {
         String amount = TestDataGenerator.getRandomAmount();
         accountPage.depositAmount(amount);
         Assert.assertTrue(accountPage.isDepositSuccessMessageVisible(), "Deposit success message should appear after depositing");
-        accountPage.refreshTransactionList();
         Assert.assertTrue(accountPage.hasTransactionWithAmount(amount), "Transactions should contain the deposit of " + amount);
 
         accountPage.depositAmount(ParameterProvider.get("banking.customer.zero.amount"));
         Assert.assertFalse(accountPage.isDepositSuccessMessageVisible(),"Deposit success message should not appear when depositing 0");
-        accountPage.refreshTransactionList();
         Assert.assertFalse(accountPage.hasTransactionWithAmount(
                 ParameterProvider.get("banking.customer.zero.amount")),
                 "Transactions should not contain a deposit of 0"
-                );
+        );
+
+        int balanceBefore = accountPage.getBalanceNumeric();
+        Assert.assertTrue(balanceBefore > 0, "Balance should be > 0 before withdrawal");
+        String withdrawAmount = TestDataGenerator.getRandomAmount(balanceBefore);
+        accountPage.withdrawlAmount(withdrawAmount);
+        Assert.assertTrue(accountPage.isWithdrawalSuccessMessageVisible(), "Transaction successful message should be appear after withdrawing " + withdrawAmount);
+        Assert.assertTrue(accountPage.hasTransactionWithAmount(withdrawAmount), "Transactions should contain withdrawal of " + withdrawAmount);
     }
 }
