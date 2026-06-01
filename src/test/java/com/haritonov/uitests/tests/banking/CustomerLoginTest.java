@@ -58,5 +58,11 @@ public class CustomerLoginTest extends BaseTest {
         accountPage.withdrawlAmount(withdrawAmount);
         Assert.assertTrue(accountPage.isWithdrawalSuccessMessageVisible(), "Transaction successful message should be appear after withdrawing " + withdrawAmount);
         Assert.assertTrue(accountPage.hasTransactionWithAmount(withdrawAmount), "Transactions should contain withdrawal of " + withdrawAmount);
+
+        balanceBefore = accountPage.getBalanceNumeric();
+        String balanceBeforeStr = String.valueOf((balanceBefore + 1));
+        accountPage.withdrawlAmount(balanceBeforeStr);
+        Assert.assertTrue(accountPage.isWithdrawalErrorMessageVisible(), "Error message should appear when withdrawing more than balance");
+        Assert.assertFalse(accountPage.hasTransactionWithAmount(balanceBeforeStr), "Transactions should not contain a withdrawal of " + balanceBeforeStr);
     }
 }
