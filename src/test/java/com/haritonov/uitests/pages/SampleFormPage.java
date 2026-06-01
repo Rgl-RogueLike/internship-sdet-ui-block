@@ -9,6 +9,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Page Object для формы регистрации на странице
+ * {@code https://www.way2automation.com/angularjs-protractor/banking/registrationform.html}.
+ */
 public class SampleFormPage extends BasePage{
 
     @FindBy(id = "firstName")
@@ -41,16 +45,30 @@ public class SampleFormPage extends BasePage{
     @FindBy(xpath = "//input[@name='hobbies']/parent::label")
     private List<WebElement> hobbyLabels;
 
+    /**
+     * Создаёт SampleFormPage и инициализирует его элементы.
+     *
+     * @param driver активный WebDriver
+     */
     public SampleFormPage(WebDriver driver) {
         super(driver);
     }
 
+    /**
+     * Страница загружена, когда видно поле First Name.
+     */
     @Override
     public boolean isPageLoaded() {
         waiter.waitForVisibility(firstNameField);
         return firstNameField.isDisplayed();
     }
 
+    /**
+     * Вводит имя.
+     *
+     * @param firstName имя
+     * @return текущая страница
+     */
     public SampleFormPage enterFirstName(String firstName) {
         waiter.waitForVisibility(firstNameField);
         firstNameField.clear();
@@ -58,6 +76,12 @@ public class SampleFormPage extends BasePage{
         return this;
     }
 
+    /**
+     * Вводит фамилию.
+     *
+     * @param lastName фамилия
+     * @return текущая страница
+     */
     public SampleFormPage enterLastname(String lastName) {
         waiter.waitForVisibility(lastNameField);
         lastNameField.clear();
@@ -65,6 +89,12 @@ public class SampleFormPage extends BasePage{
         return this;
     }
 
+    /**
+     * Вводит email.
+     *
+     * @param email адрес электронной почты
+     * @return текущая страница
+     */
     public SampleFormPage enterEmail(String email) {
         waiter.waitForVisibility(emailField);
         emailField.clear();
@@ -72,6 +102,12 @@ public class SampleFormPage extends BasePage{
         return this;
     }
 
+    /**
+     * Вводит пароль.
+     *
+     * @param password пароль
+     * @return текущая страница
+     */
     public SampleFormPage enterPassword(String password) {
         waiter.waitForVisibility(passwordField);
         passwordField.clear();
@@ -79,6 +115,13 @@ public class SampleFormPage extends BasePage{
         return this;
     }
 
+    /**
+     * Выбирает указанное хобби по его значению.
+     *
+     * @param hobbyValue значение атрибута {@code value}
+     * @return текущая страница
+     * @throws RuntimeException если чекбокс не найден
+     */
     public SampleFormPage selectHobby(String hobbyValue) {
         WebElement checkbox = hobbyCheckboxes.stream()
                 .filter(cb -> cb.getAttribute("value").equals(hobbyValue))
@@ -89,12 +132,21 @@ public class SampleFormPage extends BasePage{
         return this;
     }
 
+    /**
+     * Выбирает пол из выпадающего списка.
+     *
+     * @param genderValue значение пола
+     * @return текущая страница
+     */
     public SampleFormPage selectGender(String genderValue) {
         waiter.waitForVisibility(genderSelect);
         new Select(genderSelect).selectByValue(genderValue);
         return this;
     }
 
+    /**
+     * @return список всех хобби в виде списка строк
+     */
     public List<String> getHobbyText() {
         return hobbyLabels.stream()
                 .map(WebElement::getText)
@@ -102,6 +154,12 @@ public class SampleFormPage extends BasePage{
                 .toList();
     }
 
+    /**
+     * Находит самое длинное слово среди названий хобби.
+     * Если названий несколько, разбивает их на слова по пробелам.
+     *
+     * @return самое длинное слово или пустую строку, если список хобби пуст
+     */
     public String getLongestHobbyWord() {
         List<String> words = getHobbyText().stream()
                 .flatMap(text -> Arrays.stream(text.split("\\s+")))
@@ -112,6 +170,12 @@ public class SampleFormPage extends BasePage{
                 .orElse("");
     }
 
+    /**
+     * Вводит текст в поле "About Yourself".
+     *
+     * @param text текст для ввода
+     * @return текущая страница
+     */
     public SampleFormPage enterAboutYourself(String text) {
         waiter.waitForVisibility(aboutField);
         aboutField.clear();
@@ -119,16 +183,27 @@ public class SampleFormPage extends BasePage{
         return this;
     }
 
+    /**
+     * Нажимает кнопку Register.
+     *
+     * @return текущая страница
+     */
     public SampleFormPage clickRegister() {
         click(registerButton);
         return this;
     }
 
+    /**
+     * @return {@code true}, если сообщение об успешной регистрации отображается
+     */
     public boolean isSuccessMessageVisible() {
         waiter.waitForVisibility(successMessage);
         return successMessage.isDisplayed();
     }
 
+    /**
+     * @return текст сообщения об успешной регистрации
+     */
     public String getSuccessMessageText() {
         waiter.waitForVisibility(successMessage);
         return successMessage.getText();

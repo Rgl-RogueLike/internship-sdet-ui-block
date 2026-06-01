@@ -7,6 +7,11 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
+/**
+ * Page Object, представляющий главную страницу сайта {@code http://way2automation.com/}.
+ * <p>Содержит элементы и методы для взаимодействия с хедером, навигацией,
+ * секцией курсов и футером.
+ */
 public class HomePage extends BasePage {
 
     @FindBy(id = "masthead")
@@ -72,10 +77,18 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[span[text()='Lifetime Membership']]")
     private WebElement lifetimeMembershipLink;
 
+    /**
+     * Создаёт HomePage и инициализирует его элементы.
+     *
+     * @param driver активный WebDriver
+     */
     public HomePage(WebDriver driver) {
         super(driver);
     }
 
+    /**
+     * Страница считается загруженной, когда виден блок навигации.
+     */
     @Override
     public boolean isPageLoaded() {
         try {
@@ -86,16 +99,25 @@ public class HomePage extends BasePage {
         }
     }
 
+    /**
+     * @return {@code true}, если хедер отображается
+     */
     public boolean isHeaderVisible() {
         waiter.waitForVisibility(header);
         return header.isDisplayed();
     }
 
+    /**
+     * @return {@code true}, если блок навигации отображается
+     */
     public boolean isNavigationVisible() {
         waiter.waitForVisibility(mainNavigation);
         return mainNavigation.isDisplayed();
     }
 
+    /**
+     * @return {@code true}, если на странице видна хотя бы одна кнопка регистрации
+     */
     public boolean isRegistrationVisible() {
         if (registrationButtons.isEmpty()) {
             return false;
@@ -104,16 +126,25 @@ public class HomePage extends BasePage {
         return !registrationButtons.isEmpty() && registrationButtons.get(0).isDisplayed();
     }
 
+    /**
+     * @return {@code true}, если секция курсов отображается и содержит карточки курсов
+     */
     public boolean isCourseSectionVisible() {
         waiter.waitForVisibility(coursesSectionTitle);
         return coursesSectionTitle.isDisplayed() && !courseCards.isEmpty();
     }
 
+    /**
+     * @return {@code true}, если футер отображается
+     */
     public boolean isFooterVisible() {
         waiter.waitForVisibility(footer);
         return footer.isDisplayed();
     }
 
+    /**
+     * @return количество телефонных номеров в хедере
+     */
     public int getHeaderPhoneCount() {
         if (!headerPhones.isEmpty()) {
             waiter.waitForVisibility(headerPhones.get(0));
@@ -121,65 +152,108 @@ public class HomePage extends BasePage {
         return headerPhones.size();
     }
 
+    /**
+     * @return {@code true} если Skype-ссылка видна
+     */
     public boolean isSkypeLinkPresent() {
         waiter.waitForVisibility(headerSkypeLink);
         return headerSkypeLink.isDisplayed();
     }
 
+    /**
+     * @return {@code true} если Email-ссылка видна
+     */
     public boolean isEmailLinkPresent() {
         waiter.waitForVisibility(headerEmailLink);
         return headerEmailLink.isDisplayed();
     }
 
+    /**
+     * @return {@code true} если ссылка на Facebook видна
+     */
     public boolean isFacebookLinkPresent() {
         waiter.waitForVisibility(headerFacebookLink);
         return headerFacebookLink.isDisplayed();
     }
 
+    /**
+     * @return {@code true} если ссылка на LinkedIn видна
+     */
     public boolean isLinkedinLinkPresent() {
         waiter.waitForVisibility(headerLinkedinLink);
         return headerLinkedinLink.isDisplayed();
     }
 
+    /**
+     * @return {@code true} если ссылка на Instagram видна
+     */
     public boolean isInstagramLinkPresent() {
         waiter.waitForVisibility(headerInstagramLink);
         return headerInstagramLink.isDisplayed();
     }
 
+    /**
+     * @return {@code true} если ссылка на YouTube видна
+     */
     public boolean isYoutubeLinkPresent() {
         waiter.waitForVisibility(headerYoutubeLink);
         return headerYoutubeLink.isDisplayed();
     }
 
+    /**
+     * @return {@code true}, если кнопка "предыдущий слайд" в карусели курсов видна
+     */
     public boolean isCoursesPrevButtonVisible() {
         waiter.waitForVisibility(coursesPrevButton);
         return coursesPrevButton.isDisplayed();
     }
 
+    /**
+     * @return {@code true}, если кнопка "следующий слайд" в карусели курсов видна
+     */
     public boolean isCoursesNextButtonVisible() {
         waiter.waitForVisibility(coursesNextButton);
         return coursesNextButton.isDisplayed();
     }
 
+    /**
+     * @return {@code true}, если слайдер курсов отображается
+     */
     public boolean isCourseSliderVisible() {
         waiter.waitForVisibility(coursesSlider);
         return coursesSlider.isDisplayed();
     }
 
+    /**
+     * Кликает по кнопке "Previous" в слайдере курсов.
+     *
+     * @return текущая страница для цепочек вызовов
+     */
     public HomePage clickCoursesPrev() {
         click(coursesPrevButton);
         return this;
     }
 
+    /**
+     * Кликает по кнопке "Next" в слайдере курсов.
+     *
+     * @return текущая страница для цепочек вызовов
+     */
     public HomePage clickCoursesNext() {
         click(coursesNextButton);
         return this;
     }
 
+    /**
+     * @return текст заголовка активного слайда
+     */
     public String getActiveSlideTitle() {
         return getText(activeCourseTitle).trim();
     }
 
+    /**
+     * Прокручивает страницу до секции курсов.
+     */
     public void scrollToCoursesSection() {
         waiter.waitForVisibility(coursesNextButton);
         new Actions(driver)
@@ -187,6 +261,9 @@ public class HomePage extends BasePage {
                 .perform();
     }
 
+    /**
+     * Прокручивает страницу до футера.
+     */
     public void scrollToFooter() {
         waiter.waitForVisibility(footer);
         new Actions(driver)
@@ -194,6 +271,11 @@ public class HomePage extends BasePage {
                 .perform();
     }
 
+    /**
+     * Возвращает список текстовых данных из секции ABOUT US футера.
+     *
+     * @return список строк (адрес, телефоны, email)
+     */
     public List<String> getAboutUsContactTexts() {
         waiter.waitForVisibility(aboutUsTextElements.get(0));
         return aboutUsTextElements.stream()
@@ -202,6 +284,12 @@ public class HomePage extends BasePage {
                 .toList();
     }
 
+    /**
+     * Наводит на пункт меню "All Courses" и кликает по "Lifetime Membership",
+     * после чего возвращает страницу {@link LifetimeMembershipPage}.
+     *
+     * @return объект страницы LifetimeMembershipPage
+     */
     public LifetimeMembershipPage goToLifetimeMembership() {
         new Actions(driver)
                 .moveToElement(allCoursesMenu)
