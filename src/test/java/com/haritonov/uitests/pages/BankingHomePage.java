@@ -4,6 +4,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * Page Object, представляющий домашнюю страница банковского приложения (Way2Automation Banking App).
+ */
 public class BankingHomePage extends BasePage {
 
     @FindBy(linkText = "Sample Form")
@@ -15,27 +18,51 @@ public class BankingHomePage extends BasePage {
     @FindBy(xpath = "//button[text()='Customer Login']")
     private WebElement customerLoginButton;
 
+    /**
+     * Создаёт BankingHomePage и инициализирует его элементы.
+     *
+     * @param driver активный WebDriver
+     */
     public BankingHomePage(WebDriver driver) {
         super(driver);
     }
 
+    /**
+     * @return true, если кнопка "Sample Form" видна.
+     */
     @Override
     public boolean isPageLoaded() {
         waiter.waitForVisibility(sampleFormButton);
         return sampleFormButton.isDisplayed();
     }
 
+    /**
+     * Переходит на страницу Sample Form.
+     *
+     * @return новый объект {@link SampleFormPage}
+     */
     public SampleFormPage goToSampleFormPage() {
         click(sampleFormButton);
         return new SampleFormPage(driver);
     }
-     public BankManagerPage goToBankManagerPage() {
+
+    /**
+     * Переходит в интерфейс Bank Manager.
+     *
+     * @return новый объект {@link BankManagerPage}
+     */
+    public BankManagerPage goToBankManagerPage() {
         click(bankManagerButton);
         return new BankManagerPage(driver);
-     }
+    }
 
-     public CustomerLoginPage goToCustomerLogin() {
+    /**
+     * Переходит на страницу выбора клиента.
+     *
+     * @return новый объект {@link CustomerLoginPage}
+     */
+    public CustomerLoginPage goToCustomerLogin() {
         click(customerLoginButton);
         return new CustomerLoginPage(driver);
-     }
+    }
 }
