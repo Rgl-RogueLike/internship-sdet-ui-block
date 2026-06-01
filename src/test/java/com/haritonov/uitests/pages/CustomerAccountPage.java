@@ -100,6 +100,7 @@ public class CustomerAccountPage extends BasePage{
     }
 
     public boolean hasTransactionWithAmount(String amount) {
+        goToTransactions();
         List<String> amounts = getTransactionAmount();
         boolean found = amounts.contains(amount);
         goBackToAccount();
@@ -109,7 +110,8 @@ public class CustomerAccountPage extends BasePage{
     public CustomerAccountPage refreshTransactionList() {
         goToTransactions()
                 .goBackToAccount()
-                .goToTransactions();
+                .goToTransactions()
+                .goBackToAccount();
         return this;
     }
 }
