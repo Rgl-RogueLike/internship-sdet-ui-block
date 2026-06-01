@@ -10,9 +10,11 @@ import java.time.Duration;
 
 public class Waiter {
 
+    private final WebDriver driver;
     private final WebDriverWait wait;
 
     public Waiter(WebDriver driver) {
+        this.driver = driver;
         int explicitTimeout = Integer.parseInt(ParameterProvider.get("explicit.wait"));
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(explicitTimeout));
     }
@@ -51,6 +53,12 @@ public class Waiter {
         String text = alert.getText();
         alert.accept();
         return text;
+    }
+
+    public void waitForTransactionToProcess(long millis) {
+        long start = System.currentTimeMillis();
+        new WebDriverWait(driver, Duration.ofMillis(millis), Duration.ofMillis(millis))
+                .until(d -> (System.currentTimeMillis() - start) >= millis);
     }
 
 }
