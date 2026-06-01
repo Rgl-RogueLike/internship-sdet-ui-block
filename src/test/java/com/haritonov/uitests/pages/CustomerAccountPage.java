@@ -13,16 +13,16 @@ public class CustomerAccountPage extends BasePage{
     @FindBy(xpath = "//strong[contains(text(),'Welcome')]")
     private WebElement welcomeMessage;
 
-    @FindBy(xpath = "//button[@ng-click='deposit()']")
+    @FindBy(css = "button[ng-click='deposit()']")
     private WebElement depositButton;
 
-    @FindBy(xpath = "//button[@ng-click='transactions()']")
+    @FindBy(css = "button[ng-click='transactions()']")
     private WebElement transactionsButton;
 
-    @FindBy(xpath = "//input[@type='number']")
+    @FindBy(css = "input[type='number']")
     private WebElement amountInput;
 
-    @FindBy(xpath = "//button[@type='submit']")
+    @FindBy(css = "button[type='submit']")
     private WebElement depositSubmitButton;
 
     @FindBy(xpath = "//span[contains(text(),'Deposit Successful')]")
@@ -31,10 +31,10 @@ public class CustomerAccountPage extends BasePage{
     @FindBy(xpath = "//table[@class='table table-bordered table-striped']/tbody/tr")
     private List<WebElement> transactionRows;
 
-    @FindBy(xpath = "//button[@ng-click='back()']")
+    @FindBy(css = "button[ng-click='back()']")
     private WebElement backButton;
 
-    @FindBy(xpath = "//button[@ng-click='withdrawl()']")
+    @FindBy(css = "button[ng-click='withdrawl()']")
     private WebElement withdrawlButton;
 
     @FindBy(xpath = "//span[contains(text(),'Transaction successful')]")
@@ -46,7 +46,7 @@ public class CustomerAccountPage extends BasePage{
     @FindBy(xpath = "//span[contains(text(), 'Transaction Failed')]")
     private WebElement withdrawalErrorMessage;
 
-    @FindBy(xpath = "//button[@ng-click='reset()']")
+    @FindBy(css = "button[ng-click='reset()']")
     private WebElement resetButton;
 
     private static final By TRANSACTION_ROWS = By.xpath("//table[@class='table table-bordered table-striped']/tbody/tr");
