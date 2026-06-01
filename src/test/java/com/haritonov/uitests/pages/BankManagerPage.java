@@ -1,11 +1,13 @@
 package com.haritonov.uitests.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class BankManagerPage extends BasePage {
 
@@ -35,6 +37,14 @@ public class BankManagerPage extends BasePage {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement processButton;
+
+    @FindBy(xpath = "//button[@ng-click='showCust()']")
+    private WebElement customersButton;
+
+    @FindBy(css = "input[ng-model='searchCustomer']")
+    private WebElement searchCustomerInput;
+
+    private static final By CUSTOMER_ROWS = By.xpath("//table[@class='table table-bordered table-striped']/tbody/tr");
 
     public BankManagerPage(WebDriver driver) {
         super(driver);
@@ -124,5 +134,43 @@ public class BankManagerPage extends BasePage {
                 .clickProcess();
         acceptAlertAndGetText();
         return firstName + " " + lastName;
+    }
+
+    public BankManagerPage clickCustomersButton() {
+        click(customersButton);
+        waiter.waitForVisibility(searchCustomerInput);
+        return this;
+    }
+
+    public BankManagerPage searchCustomer(String firstName) {
+        searchCustomerInput.clear();
+        searchCustomerInput.sendKeys(firstName);
+        return this;
+    }
+
+    public int getCustomerCount() {
+        return driver.findElements(CUSTOMER_ROWS).size();
+    }
+
+    public BankManagerPage deleteFirstCustomerInTable() {
+        List<WebElement> rows = driver.findElements(CUSTOMER_ROWS);
+        if (rows.isEmpty()) {
+            throw new NoSuchElementException("No customer rows found to delete");
+        }
+        WebElement deleteButton = rows.get(0).findElement(By.xpath("./td[5]/button[text()='Delete']"));
+        click(deleteButton);
+        return this;
+    }
+
+    public BankManagerPage clearSearchField() {
+        searchCustomerInput.clear();
+        return this;
+    }
+
+    public List<String> getCustomerFirstNames() {
+        List<WebElement> rows = driver.findElements(CUSTOMER_ROWS);
+        return rows.stream()
+                .map(row -> row.findElement(By.xpath("./td[1]")).getText().trim())
+                .toList();
     }
 }
