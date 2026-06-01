@@ -46,6 +46,9 @@ public class CustomerAccountPage extends BasePage{
     @FindBy(xpath = "//span[contains(text(), 'Transaction Failed')]")
     private WebElement withdrawalErrorMessage;
 
+    @FindBy(xpath = "//button[@ng-click='reset()']")
+    private WebElement resetButton;
+
     private static final By TRANSACTION_ROWS = By.xpath("//table[@class='table table-bordered table-striped']/tbody/tr");
 
     public CustomerAccountPage(WebDriver driver) {
@@ -168,5 +171,14 @@ public class CustomerAccountPage extends BasePage{
                 .sum();
         goBackToAccount();
         return balance;
+    }
+
+    public CustomerAccountPage clickResetButton() {
+        click(resetButton);
+        return this;
+    }
+
+    public int getTransactionCount() {
+        return driver.findElements(TRANSACTION_ROWS).size();
     }
 }
