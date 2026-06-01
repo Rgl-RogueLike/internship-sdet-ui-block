@@ -156,4 +156,17 @@ public class CustomerAccountPage extends BasePage{
             return false;
         }
     }
+
+    public int calculateBalanceFromTransactions() {
+        goToTransactions();
+        int balance = driver.findElements(TRANSACTION_ROWS).stream()
+                .mapToInt(row -> {
+                    int amount = Integer.parseInt(row.findElement(By.xpath("./td[2]")).getText().trim());
+                    String type = row.findElement(By.xpath("./td[3]")).getText().trim();
+                    return type.equalsIgnoreCase("Credit") ? amount : -amount;
+                })
+                .sum();
+        goBackToAccount();
+        return balance;
+    }
 }
