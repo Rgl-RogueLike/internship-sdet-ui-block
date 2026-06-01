@@ -35,7 +35,7 @@ public class CustomerLoginTest extends BaseTest {
     }
 
     @Test
-    public void shouldDisplayWelcomeMessageAfterCustomerLogin() {
+    public void shouldPerformFulAccountLifecycleAndEndWithZeroBalance() {
         Assert.assertTrue(accountPage.isPageLoaded(), "Customer account page should be loaded");
         String expectedGreeting = "Welcome " + customerFullName;
         Assert.assertTrue(accountPage.getWelcomeMessage().contains(expectedGreeting), "Welcome message should contain the customer full name");
@@ -68,5 +68,12 @@ public class CustomerLoginTest extends BaseTest {
         int displayBalance = accountPage.getBalanceNumeric();
         int calculatedBalance = accountPage.calculateBalanceFromTransactions();
         Assert.assertEquals(displayBalance, calculatedBalance, "Displayed balance should equals the sum of transactions");
+
+        int remainingBalance = accountPage.getBalanceNumeric();
+        Assert.assertTrue(remainingBalance > 0,"Balance should be > 0 before final withdrawal");
+        accountPage.withdrawlAmount(String.valueOf(remainingBalance));
+        Assert.assertTrue(accountPage.isWithdrawalSuccessMessageVisible(), "Transaction successful message should appear after withdrawing remaining balance");
+        int balanceAfterWithdrawAll = accountPage.getBalanceNumeric();
+        Assert.assertEquals(balanceAfterWithdrawAll, 0, "Balance should be 0 after withdrawing all funds");
     }
 }
