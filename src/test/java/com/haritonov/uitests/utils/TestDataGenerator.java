@@ -46,4 +46,13 @@ public class TestDataGenerator {
                 )
         );
     }
+
+    public static String getRandomAmount(int maxAmount) {
+        return String.valueOf(
+                faker.number().numberBetween(
+                        Integer.parseInt(ParameterProvider.get("banking.customer.min.amount")),
+                        maxAmount
+                )
+        );
+    }
 }
