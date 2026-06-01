@@ -45,5 +45,13 @@ public class CustomerLoginTest extends BaseTest {
         Assert.assertTrue(accountPage.isDepositSuccessMessageVisible(), "Deposit success message should appear after depositing");
         accountPage.refreshTransactionList();
         Assert.assertTrue(accountPage.hasTransactionWithAmount(amount), "Transactions should contain the deposit of " + amount);
+
+        accountPage.depositAmount(ParameterProvider.get("banking.customer.zero.amount"));
+        Assert.assertFalse(accountPage.isDepositSuccessMessageVisible(),"Deposit success message should not appear when depositing 0");
+        accountPage.refreshTransactionList();
+        Assert.assertFalse(accountPage.hasTransactionWithAmount(
+                ParameterProvider.get("banking.customer.zero.amount")),
+                "Transactions should not contain a deposit of 0"
+                );
     }
 }
