@@ -1,7 +1,7 @@
 package com.haritonov.uitests.tests.banking;
 
 import com.haritonov.uitests.helpers.ParameterProvider;
-import com.haritonov.uitests.pages.BankingHomePage;
+import com.haritonov.uitests.pages.banking.BankingHomePage;
 import com.haritonov.uitests.pages.SampleFormPage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.TestDataGenerator;
@@ -9,10 +9,18 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+/**
+ * Тест Sample Form (регистрационная форма).
+ * <p>Проверяет заполнение формы случайными данными, выбор хобби,
+ * вставку самого длинного слова из списка хобби и появление сообщения об успехе.
+ */
 public class SampleFormTest extends BaseTest {
 
     private BankingHomePage bankingHomePage;
 
+    /**
+     * Открывает домашнюю страницу банка и инициализирует {@link BankingHomePage}.
+     */
     @BeforeMethod
     @Override
     public void setUp() {
@@ -21,7 +29,8 @@ public class SampleFormTest extends BaseTest {
         bankingHomePage = new BankingHomePage(driver);
     }
 
-    @Test
+    @Test(description = "Sample Form: заполнение формы случайными данными, выбор хобби Sports, " +
+            "ввод самого длинного слова из хобби и проверка сообщения об успешной регистрации")
     public void shouldBeRegisterWithLongestHobbyMessage() {
         Assert.assertTrue(bankingHomePage.isPageLoaded());
         SampleFormPage sampleFormPage = bankingHomePage.goToSampleFormPage();

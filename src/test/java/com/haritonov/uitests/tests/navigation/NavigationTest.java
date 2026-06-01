@@ -8,10 +8,17 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+/**
+ * Тесты навигационного меню.
+ * <p>Проверяет закрепление меню при скролле и переход на страницу Lifetime Membership.
+ */
 public class NavigationTest extends BaseTest {
 
     private HomePage homePage;
 
+    /**
+     * Перед каждым тестом открывает главную страницу и создаёт HomePage.
+     */
     @BeforeMethod
     @Override
     public void setUp() {
@@ -19,7 +26,7 @@ public class NavigationTest extends BaseTest {
         homePage = new HomePage(driver);
     }
 
-    @Test
+    @Test(description = "Навигация: меню должно оставаться видимым после прокрутки страницы вниз")
     public void navigationMenuShouldRemainVisibleAfterScrollingDown() {
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible at the top the page");
@@ -27,7 +34,7 @@ public class NavigationTest extends BaseTest {
         Assert.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible after scrolling down");
     }
 
-    @Test
+    @Test(description = "Навигация: переход All Courses -> Lifetime Membership, проверка URL и заголовка страницы")
     public void shouldNavigateToLifetimeMembershipFromMenu() {
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         LifetimeMembershipPage lifetimeMembershipPage = homePage.goToLifetimeMembership();

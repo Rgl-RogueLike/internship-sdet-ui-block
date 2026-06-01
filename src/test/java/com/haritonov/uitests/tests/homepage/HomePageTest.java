@@ -9,10 +9,18 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+/**
+ * Тесты главной страницы http://way2automation.com/.
+ * <p>Проверяет видимость основных блоков, контакты в хедере,
+ * поведение слайдера курсов и содержимое футера.
+ */
 public class HomePageTest extends BaseTest {
 
     private HomePage homePage;
 
+    /**
+     * Перед каждым тестом открывает главную страницу и создаёт HomePage.
+     */
     @BeforeMethod
     @Override
     public void setUp() {
@@ -20,7 +28,7 @@ public class HomePageTest extends BaseTest {
         homePage = new HomePage(driver);
     }
 
-    @Test
+    @Test(description = "Главная страница: все основные блоки (хедер, навигация, регистрация, курсы, футер) видны после загрузки")
     public void mainElementsShouldBeVisibleWhenHomePageLoads() {
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.isHeaderVisible(), "Header should be visible");
@@ -31,7 +39,7 @@ public class HomePageTest extends BaseTest {
         Assert.assertTrue(homePage.isFooterVisible(), "Footer should be visible");
     }
 
-    @Test
+    @Test(description = "Главная страница: хедер содержит телефоны, Skype, Email и ссылки на соцсети")
     public void headerContactsShouldBePresentWhenHomePageLoads() {
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Assert.assertTrue(homePage.getHeaderPhoneCount() > 0, "Header should contain phone numbers");
@@ -43,7 +51,7 @@ public class HomePageTest extends BaseTest {
         Assert.assertTrue(homePage.isYoutubeLinkPresent(), "Header should contain YouTube link");
     }
 
-    @Test
+    @Test(description = "Главная страница: кнопки слайдера курсов не меняют заголовок активного слайда")
     public void coursesSliderShouldNotSwitchWhenNavigationButtonsClicked() {
         Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         homePage.scrollToCoursesSection();
@@ -61,7 +69,7 @@ public class HomePageTest extends BaseTest {
         Assert.assertEquals(currentSlideTitle, prevSlideTitle, "After clicking Prev twice, slide title should not change (expected same as initial)");
     }
 
-    @Test
+    @Test(description = "Главная страница: футер содержит адрес, телефон и email")
     public void footerShouldBeVisibleAndContainAddressPhoneAndEmails() {
         homePage.scrollToFooter();
         Assert.assertTrue(homePage.isFooterVisible(), "Footer should be visible");

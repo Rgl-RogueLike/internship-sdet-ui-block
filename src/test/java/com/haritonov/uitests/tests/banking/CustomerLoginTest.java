@@ -1,20 +1,32 @@
 package com.haritonov.uitests.tests.banking;
 
 import com.haritonov.uitests.helpers.ParameterProvider;
-import com.haritonov.uitests.pages.BankManagerPage;
-import com.haritonov.uitests.pages.BankingHomePage;
-import com.haritonov.uitests.pages.CustomerAccountPage;
+import com.haritonov.uitests.pages.banking.BankManagerPage;
+import com.haritonov.uitests.pages.banking.BankingHomePage;
+import com.haritonov.uitests.pages.banking.CustomerAccountPage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.TestDataGenerator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+/**
+ * Тест полного жизненного цикла клиента.
+ * <p>Один тест, который последовательно проверяет:
+ * вход, пополнение (успешное и неуспешное), снятие (успешное и неуспешное),
+ * сверку баланса, снятие всех средств и очистку истории транзакций.
+ */
 public class CustomerLoginTest extends BaseTest {
 
     private CustomerAccountPage accountPage;
     private String customerFullName;
 
+    /**
+     * Предусловие для теста:
+     *   Открывает домашнюю страницу банка;
+     *   Через Bank Manager создаёт нового клиента со счётом в указанной валюте;
+     *   Возвращается на домашнюю страницу и выполняет вход под созданным клиентом.
+     */
     @BeforeMethod
     @Override
     public void setUp() {
@@ -34,7 +46,8 @@ public class CustomerLoginTest extends BaseTest {
         accountPage = bankingHomePage.goToCustomerLogin().loginAs(customerFullName);
     }
 
-    @Test
+    @Test(description = "Жизненный цикл клиента: вход, успешное/неуспешное пополнение и снятие, сверка баланса, " +
+            "снятие всех средств, очистка истории и финальный нулевой баланс")
     public void shouldPerformFulAccountLifecycleAndEndWithZeroBalance() {
         Assert.assertTrue(accountPage.isPageLoaded(), "Customer account page should be loaded");
         String expectedGreeting = "Welcome " + customerFullName;

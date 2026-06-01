@@ -7,10 +7,18 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+/**
+ * Тесты страницы авторизации.
+ * <p>Проверяет состояние полей, успешный вход с валидными данными,
+ * ошибку при невалидных данных и выход из системы.
+ */
 public class LoginPageTest extends BaseTest {
 
     private LoginPage loginPage;
 
+    /**
+     * Перед каждым тестом открывает страницу авторизации и создаёт LoginPage.
+     */
     @BeforeMethod
     @Override
     public void setUp() {
@@ -19,7 +27,7 @@ public class LoginPageTest extends BaseTest {
         loginPage = new LoginPage(driver);
     }
 
-    @Test
+    @Test(description = "Логин: поля Username и Password видны, кнопка Login заблокирована при пустых полях")
     public void fieldsShouldBeVisibleAndLoginButtonDisableWhenEmpty() {
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page should be loaded");
         Assert.assertTrue(loginPage.isUsernameFieldVisible(), "Username field should be visible");
@@ -27,7 +35,7 @@ public class LoginPageTest extends BaseTest {
         Assert.assertTrue(loginPage.isLoginButtonDisabled(), "Login button should be disabled when fields are empty");
     }
 
-    @Test
+    @Test(description = "Логин: успешная авторизация с валидными данными (angular/password)")
     public void shouldLoginSuccessfullyWithValidCredentials() {
         loginPage.enterUsername(ParameterProvider.get("login.username"))
                 .enterPassword(ParameterProvider.get("login.password"))
@@ -42,7 +50,7 @@ public class LoginPageTest extends BaseTest {
         Assert.assertEquals(expectedMessage, actualMessage, "Success message should be " + expectedMessage);
     }
 
-    @Test
+    @Test(description = "Логин: ошибка авторизации при неверных данных, сообщение 'Username or password is incorrect'")
     public void shouldDisplayErrorWhenUsingInvalidCredentials() {
         loginPage.enterUsername(ParameterProvider.get("login.invalid.username"))
                 .enterPassword(ParameterProvider.get("login.invalid.password"))
@@ -57,7 +65,7 @@ public class LoginPageTest extends BaseTest {
         Assert.assertEquals(expectedMessage, actualMessage, "Error message should be " + expectedMessage);
     }
 
-    @Test
+    @Test(description = "Логин: после выхода из системы отображается форма входа")
     public void shouldLogoutSuccessfullyAndReturnToLoginPage() {
         loginPage.enterUsername(ParameterProvider.get("login.username"))
                 .enterPassword(ParameterProvider.get("login.password"))
