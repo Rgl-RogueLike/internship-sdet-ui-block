@@ -15,4 +15,19 @@
             <class name="com.haritonov.uitests.tests.login.LoginPageTest"/>
         </classes>
     </test>
+    <test name="Banking Manager Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.banking.BankingManagerPageTest"/>
+        </classes>
+    </test>
+    <test name="Customer Login Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.banking.CustomerLoginTest"/>
+        </classes>
+    </test>
+    <test name="Sample Form Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.banking.SampleFormTest"/>
+        </classes>
+    </test>
 </suite>
