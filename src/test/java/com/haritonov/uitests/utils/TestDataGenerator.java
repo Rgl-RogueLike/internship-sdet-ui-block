@@ -63,13 +63,13 @@ public class TestDataGenerator {
 
     /**
      * @return целое случайное число в диапазоне от {@code banking.customer.min.amount}
-     *         до {@code banking.customer.max.amount}
+     * до {@code banking.customer.max.amount}
      */
     public static String getRandomAmount() {
         return String.valueOf(
                 faker.number().numberBetween(
-                    Integer.parseInt(ParameterProvider.get("banking.customer.min.amount")),
-                    Integer.parseInt(ParameterProvider.get("banking.customer.max.amount"))
+                        Integer.parseInt(ParameterProvider.get("banking.customer.min.amount")),
+                        Integer.parseInt(ParameterProvider.get("banking.customer.max.amount"))
                 )
         );
     }

@@ -46,9 +46,9 @@ public class CustomerLoginTest extends BaseTest {
         Assert.assertTrue(accountPage.hasTransactionWithAmount(amount), "Transactions should contain the deposit of " + amount);
 
         accountPage.depositAmount(ParameterProvider.get("banking.customer.zero.amount"));
-        Assert.assertFalse(accountPage.isDepositSuccessMessageVisible(),"Deposit success message should not appear when depositing 0");
+        Assert.assertFalse(accountPage.isDepositSuccessMessageVisible(), "Deposit success message should not appear when depositing 0");
         Assert.assertFalse(accountPage.hasTransactionWithAmount(
-                ParameterProvider.get("banking.customer.zero.amount")),
+                        ParameterProvider.get("banking.customer.zero.amount")),
                 "Transactions should not contain a deposit of 0"
         );
 
@@ -70,7 +70,7 @@ public class CustomerLoginTest extends BaseTest {
         Assert.assertEquals(displayBalance, calculatedBalance, "Displayed balance should equals the sum of transactions");
 
         int remainingBalance = accountPage.getBalanceNumeric();
-        Assert.assertTrue(remainingBalance > 0,"Balance should be > 0 before final withdrawal");
+        Assert.assertTrue(remainingBalance > 0, "Balance should be > 0 before final withdrawal");
         accountPage.withdrawlAmount(String.valueOf(remainingBalance));
         Assert.assertTrue(accountPage.isWithdrawalSuccessMessageVisible(), "Transaction successful message should appear after withdrawing remaining balance");
         int balanceAfterWithdrawAll = accountPage.getBalanceNumeric();

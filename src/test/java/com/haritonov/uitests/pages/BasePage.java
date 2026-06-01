@@ -28,11 +28,11 @@ public abstract class BasePage {
     }
 
     /**
-    * Кликает по элементу, предварительно дождавшись его кликабельности.
-    *
-    * @param element для клика
-    * @return текущую страницу
-    */
+     * Кликает по элементу, предварительно дождавшись его кликабельности.
+     *
+     * @param element для клика
+     * @return текущую страницу
+     */
     protected BasePage click(WebElement element) {
         waiter.clickWhenReady(element);
         return this;

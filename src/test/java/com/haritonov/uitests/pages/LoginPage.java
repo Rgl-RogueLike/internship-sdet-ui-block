@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
  * ({@code https://www.way2automation.com/angularjs-protractor/registeration/#/login}).
  * Содержит элементы и методы для работы с формой логина.
  */
-public class LoginPage extends BasePage{
+public class LoginPage extends BasePage {
 
     @FindBy(id = "username")
     private WebElement usernameField;

@@ -13,7 +13,7 @@ import java.util.List;
  * Page Object для формы регистрации на странице
  * {@code https://www.way2automation.com/angularjs-protractor/banking/registrationform.html}.
  */
-public class SampleFormPage extends BasePage{
+public class SampleFormPage extends BasePage {
 
     @FindBy(id = "firstName")
     private WebElement firstNameField;

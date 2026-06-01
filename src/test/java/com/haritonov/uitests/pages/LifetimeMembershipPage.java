@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
  * Page Object для страницы Lifetime Membership Club
  * ({@code https://www.way2automation.com/lifetime-membership-club/}).
  */
-public class LifetimeMembershipPage extends BasePage{
+public class LifetimeMembershipPage extends BasePage {
 
     @FindBy(tagName = "h1")
     private WebElement pageTitle;
