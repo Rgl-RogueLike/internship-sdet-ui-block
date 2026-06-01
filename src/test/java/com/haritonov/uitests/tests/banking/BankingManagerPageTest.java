@@ -9,6 +9,8 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class BankingManagerPageTest extends BaseTest {
 
     BankManagerPage managerPage;
@@ -46,5 +48,23 @@ public class BankingManagerPageTest extends BaseTest {
         String expectedMessage = ParameterProvider.get("banking.manager.account.success.message");
         String actualMessage = managerPage.acceptAlertAndGetText();
         Assert.assertTrue(actualMessage.contains(expectedMessage), "Alert should confirm account, but was: " + actualMessage);
+    }
+
+    @Test
+    public void shouldDeleteCustomerAfterCreatingAccount() {
+        String firstName = TestDataGenerator.getRandomFirstName();
+        managerPage.createCustomerWithAccount(
+                firstName,
+                TestDataGenerator.getRandomLastName(),
+                TestDataGenerator.getRandomPostCode(),
+                ParameterProvider.get("banking.manager.currency")
+        );
+        managerPage.clickCustomersButton();
+        managerPage.searchCustomer(firstName);
+        Assert.assertTrue(managerPage.getCustomerCount() > 0, "Customer should be present in the table after search");
+        managerPage.deleteFirstCustomerInTable();
+        managerPage.clearSearchField();
+        List<String> firstNames = managerPage.getCustomerFirstNames();
+        Assert.assertFalse(firstNames.contains(firstName), "Deleted customer should not appear in the customer list");
     }
 }
