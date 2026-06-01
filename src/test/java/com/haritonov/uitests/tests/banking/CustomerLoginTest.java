@@ -75,5 +75,15 @@ public class CustomerLoginTest extends BaseTest {
         Assert.assertTrue(accountPage.isWithdrawalSuccessMessageVisible(), "Transaction successful message should appear after withdrawing remaining balance");
         int balanceAfterWithdrawAll = accountPage.getBalanceNumeric();
         Assert.assertEquals(balanceAfterWithdrawAll, 0, "Balance should be 0 after withdrawing all funds");
+
+        accountPage.goToTransactions();
+        int transactionsBeforeReset = accountPage.getTransactionCount();
+        Assert.assertTrue(transactionsBeforeReset > 0, "Should have transactions before reset");
+        accountPage.clickResetButton();
+        int transactionsAfterReset = accountPage.getTransactionCount();
+        Assert.assertEquals(transactionsAfterReset, 0, "Transaction history should be empty after reset");
+        accountPage.goBackToAccount();
+        int finalBalance = accountPage.getBalanceNumeric();
+        Assert.assertEquals(finalBalance, 0, "Balance should remain 0 after transaction reset");
     }
 }
