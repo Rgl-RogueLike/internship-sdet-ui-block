@@ -43,6 +43,9 @@ public class CustomerAccountPage extends BasePage{
     @FindBy(xpath = "(//div[@class='center']/strong)[2]")
     private WebElement balanceValue;
 
+    @FindBy(xpath = "//span[contains(text(), 'Transaction Failed')]")
+    private WebElement withdrawalErrorMessage;
+
     private static final By TRANSACTION_ROWS = By.xpath("//table[@class='table table-bordered table-striped']/tbody/tr");
 
     public CustomerAccountPage(WebDriver driver) {
@@ -118,10 +121,6 @@ public class CustomerAccountPage extends BasePage{
                 .toList();
     }
 
-    public CustomerAccountPage refreshTransactionList() {
-        return this;
-    }
-
     public CustomerAccountPage clickWithdrawalButton() {
         click(withdrawlButton);
         return this;
@@ -147,5 +146,14 @@ public class CustomerAccountPage extends BasePage{
                 .enterAmount(amount)
                 .submitTransaction();
         return this;
+    }
+
+    public boolean isWithdrawalErrorMessageVisible() {
+        try {
+            waiter.waitForVisibility(withdrawalErrorMessage);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
