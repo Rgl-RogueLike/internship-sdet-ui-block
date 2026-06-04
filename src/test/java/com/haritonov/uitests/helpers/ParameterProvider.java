@@ -12,25 +12,31 @@ import java.util.Properties;
  * Параметры загружаются в память при первом обращении.
  */
 public class ParameterProvider {
-    private static final String PARAMETERS_PATH = "configurations/config.properties";
+
+    private static final String[] PARAMETERS_PATHS = {
+            "configurations/settings.properties",
+            "configurations/testdata.properties"
+    };
 
     private static ParameterProvider instance;
     private final Map<String, String> parameters;
 
 
     private ParameterProvider() {
-        try {
-            parameters = new HashMap<>();
-            Properties prop = new Properties();
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream(PARAMETERS_PATH);
-            if (inputStream == null) {
-                throw new RuntimeException("File not found: " + PARAMETERS_PATH);
+        parameters = new HashMap<>();
+        for (String path : PARAMETERS_PATHS) {
+            try {
+                Properties prop = new Properties();
+                InputStream inputStream = getClass().getClassLoader().getResourceAsStream(path);
+                if (inputStream == null) {
+                    throw new RuntimeException("File not found: " + path);
+                }
+                prop.load(inputStream);
+                prop.stringPropertyNames()
+                        .forEach(key -> parameters.put(key, prop.getProperty(key)));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            prop.load(inputStream);
-            prop.stringPropertyNames()
-                    .forEach(key -> parameters.put(key, prop.getProperty(key)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
