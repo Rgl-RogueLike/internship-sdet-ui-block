@@ -114,7 +114,6 @@ public class CustomerAccountPage extends BasePage {
     public boolean isDepositSuccessMessageVisible() {
         try {
             waiter.waitForVisibility(depositSuccessMessage);
-            waiter.waitForTransactionToProcess(Long.parseLong(ParameterProvider.get("banking.customer.transaction.pause.millis")));
             return true;
         } catch (Exception e) {
             return false;
@@ -125,6 +124,7 @@ public class CustomerAccountPage extends BasePage {
      * Переходит на вкладку Transactions и ждёт загрузки.
      */
     public CustomerAccountPage goToTransactions() {
+        waiter.waitForTransactionToProcess(Long.parseLong(ParameterProvider.get("banking.customer.transaction.pause.millis")));
         click(transactionsButton);
         waiter.waitForVisibility(backButton);                                 // вкладка загрузилась
         return this;
@@ -189,7 +189,6 @@ public class CustomerAccountPage extends BasePage {
     public boolean isWithdrawalSuccessMessageVisible() {
         try {
             waiter.waitForVisibility(withdrawlSuccessMessage);
-            waiter.waitForTransactionToProcess(Integer.parseInt(ParameterProvider.get("banking.customer.transaction.pause.millis")));
             return true;
         } catch (Exception e) {
             return false;
@@ -261,6 +260,7 @@ public class CustomerAccountPage extends BasePage {
      * @return количество строк в таблице транзакций
      */
     public int getTransactionCount() {
+        waiter.waitForTransactionToProcess(Long.parseLong(ParameterProvider.get("banking.customer.transaction.pause.millis")));
         return driver.findElements(TRANSACTION_ROWS).size();
     }
 }
