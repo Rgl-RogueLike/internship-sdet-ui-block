@@ -3,7 +3,7 @@ package com.haritonov.uitests.tests.login;
 import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.LoginPage;
 import com.haritonov.uitests.tests.BaseTest;
-import org.testng.Assert;
+import com.haritonov.uitests.utils.Checker;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -29,10 +29,10 @@ public class LoginPageTest extends BaseTest {
 
     @Test(description = "Логин: поля Username и Password видны, кнопка Login заблокирована при пустых полях")
     public void fieldsShouldBeVisibleAndLoginButtonDisableWhenEmpty() {
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page should be loaded");
-        Assert.assertTrue(loginPage.isUsernameFieldVisible(), "Username field should be visible");
-        Assert.assertTrue(loginPage.isPasswordFieldVisible(), "Password field should be visible");
-        Assert.assertTrue(loginPage.isLoginButtonDisabled(), "Login button should be disabled when fields are empty");
+        Checker.assertTrue(loginPage.isPageLoaded(), "Login page should be loaded");
+        Checker.assertTrue(loginPage.isUsernameFieldVisible(), "Username field should be visible");
+        Checker.assertTrue(loginPage.isPasswordFieldVisible(), "Password field should be visible");
+        Checker.assertTrue(loginPage.isLoginButtonDisabled(), "Login button should be disabled when fields are empty");
     }
 
     @Test(description = "Логин: успешная авторизация с валидными данными (angular/password)")
@@ -41,13 +41,13 @@ public class LoginPageTest extends BaseTest {
                 .enterPassword(ParameterProvider.get("login.password"))
                 .enterUsernameDescription(ParameterProvider.get("login.username.description"));
 
-        Assert.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled after filling required fields");
+        Checker.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled after filling required fields");
         loginPage.clickLoginButton();
 
-        Assert.assertTrue(loginPage.isSuccessMessageVisible(), "Success message should be visible after login");
+        Checker.assertTrue(loginPage.isSuccessMessageVisible(), "Success message should be visible after login");
         String expectedMessage = ParameterProvider.get("login.success.message");
         String actualMessage = loginPage.getSuccessMessageText();
-        Assert.assertEquals(expectedMessage, actualMessage, "Success message should be " + expectedMessage);
+        Checker.assertEquals(expectedMessage, actualMessage, "Success message should be " + expectedMessage);
     }
 
     @Test(description = "Логин: ошибка авторизации при неверных данных, сообщение 'Username or password is incorrect'")
@@ -56,13 +56,13 @@ public class LoginPageTest extends BaseTest {
                 .enterPassword(ParameterProvider.get("login.invalid.password"))
                 .enterUsernameDescription(ParameterProvider.get("login.username.description"));
 
-        Assert.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled after filling required fields");
+        Checker.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled after filling required fields");
         loginPage.clickLoginButton();
 
-        Assert.assertTrue(loginPage.isErrorMessageVisible(), "Error message should apper for invalid credentials");
+        Checker.assertTrue(loginPage.isErrorMessageVisible(), "Error message should apper for invalid credentials");
         String expectedMessage = ParameterProvider.get("login.error.message");
         String actualMessage = loginPage.getErrorMessageText();
-        Assert.assertEquals(expectedMessage, actualMessage, "Error message should be " + expectedMessage);
+        Checker.assertEquals(expectedMessage, actualMessage, "Error message should be " + expectedMessage);
     }
 
     @Test(description = "Логин: после выхода из системы отображается форма входа")
@@ -71,13 +71,13 @@ public class LoginPageTest extends BaseTest {
                 .enterPassword(ParameterProvider.get("login.password"))
                 .enterUsernameDescription(ParameterProvider.get("login.username.description"));
 
-        Assert.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled before logging in");
+        Checker.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled before logging in");
         loginPage.clickLoginButton();
-        Assert.assertTrue(loginPage.isSuccessMessageVisible(), "Should be logged in successfully before logout");
+        Checker.assertTrue(loginPage.isSuccessMessageVisible(), "Should be logged in successfully before logout");
         loginPage.clickLogout();
 
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page should be loaded after logout");
-        Assert.assertTrue(loginPage.isUsernameFieldVisible(), "Username field should be visible after logout");
-        Assert.assertTrue(loginPage.isPasswordFieldVisible(), "Password field should be visible after logout");
+        Checker.assertTrue(loginPage.isPageLoaded(), "Login page should be loaded after logout");
+        Checker.assertTrue(loginPage.isUsernameFieldVisible(), "Username field should be visible after logout");
+        Checker.assertTrue(loginPage.isPasswordFieldVisible(), "Password field should be visible after logout");
     }
 }

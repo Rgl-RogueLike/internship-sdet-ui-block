@@ -4,7 +4,7 @@ import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.HomePage;
 import com.haritonov.uitests.pages.LifetimeMembershipPage;
 import com.haritonov.uitests.tests.BaseTest;
-import org.testng.Assert;
+import com.haritonov.uitests.utils.Checker;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -28,19 +28,17 @@ public class NavigationTest extends BaseTest {
 
     @Test(description = "Навигация: меню должно оставаться видимым после прокрутки страницы вниз")
     public void navigationMenuShouldRemainVisibleAfterScrollingDown() {
-        Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
-        Assert.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible at the top the page");
+        Checker.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible at the top the page");
         homePage.scrollToFooter();
-        Assert.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible after scrolling down");
+        Checker.assertTrue(homePage.isNavigationVisible(), "Navigation menu should be visible after scrolling down");
     }
 
     @Test(description = "Навигация: переход All Courses -> Lifetime Membership, проверка URL и заголовка страницы")
     public void shouldNavigateToLifetimeMembershipFromMenu() {
-        Assert.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         LifetimeMembershipPage lifetimeMembershipPage = homePage.goToLifetimeMembership();
-        Assert.assertTrue(lifetimeMembershipPage.isPageLoaded(), "Should be on Lifetime Member page");
+        Checker.assertTrue(lifetimeMembershipPage.isPageLoaded(), "Should be on Lifetime Member page");
         String titleContains = ParameterProvider.get("navigation.lifetime.page.title");
         String titlePage = lifetimeMembershipPage.getTextTitle().toUpperCase();
-        Assert.assertTrue(titlePage.contains(titleContains), "Page title should contain " + titleContains + ", but got: " + titlePage);
+        Checker.assertTrue(titlePage.contains(titleContains), "Page title should contain " + titleContains + ", but got: " + titlePage);
     }
 }

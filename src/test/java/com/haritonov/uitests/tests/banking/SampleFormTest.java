@@ -1,11 +1,11 @@
 package com.haritonov.uitests.tests.banking;
 
 import com.haritonov.uitests.helpers.ParameterProvider;
-import com.haritonov.uitests.pages.banking.BankingHomePage;
 import com.haritonov.uitests.pages.SampleFormPage;
+import com.haritonov.uitests.pages.banking.BankingHomePage;
 import com.haritonov.uitests.tests.BaseTest;
+import com.haritonov.uitests.utils.Checker;
 import com.haritonov.uitests.utils.TestDataGenerator;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -32,9 +32,9 @@ public class SampleFormTest extends BaseTest {
     @Test(description = "Sample Form: заполнение формы случайными данными, выбор хобби Sports, " +
             "ввод самого длинного слова из хобби и проверка сообщения об успешной регистрации")
     public void shouldBeRegisterWithLongestHobbyMessage() {
-        Assert.assertTrue(bankingHomePage.isPageLoaded());
+        Checker.assertTrue(bankingHomePage.isPageLoaded(), "Banking home page should be loaded");
         SampleFormPage sampleFormPage = bankingHomePage.goToSampleFormPage();
-        Assert.assertTrue(sampleFormPage.isPageLoaded(), "Sample form page should be loaded");
+        Checker.assertTrue(sampleFormPage.isPageLoaded(), "Sample form page should be loaded");
         String longestHobby = sampleFormPage.getLongestHobbyWord();
         String aboutText = ParameterProvider.get("sample.form.about.text") + longestHobby;
 
@@ -47,9 +47,9 @@ public class SampleFormTest extends BaseTest {
                 .enterAboutYourself(aboutText)
                 .clickRegister();
 
-        Assert.assertTrue(sampleFormPage.isSuccessMessageVisible(), "Success message should be visible after registration");
+        Checker.assertTrue(sampleFormPage.isSuccessMessageVisible(), "Success message should be visible after registration");
         String expectedMessage = ParameterProvider.get("sample.form.success.message");
         String actualMessage = sampleFormPage.getSuccessMessageText();
-        Assert.assertEquals(actualMessage, expectedMessage, "Success message text should match expected");
+        Checker.assertEquals(actualMessage, expectedMessage, "Success message text should match expected");
     }
 }

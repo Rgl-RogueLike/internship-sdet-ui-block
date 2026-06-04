@@ -4,8 +4,8 @@ import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.banking.BankManagerPage;
 import com.haritonov.uitests.pages.banking.BankingHomePage;
 import com.haritonov.uitests.tests.BaseTest;
+import com.haritonov.uitests.utils.Checker;
 import com.haritonov.uitests.utils.TestDataGenerator;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -43,7 +43,7 @@ public class BankingManagerPageTest extends BaseTest {
 
         String expectedMessage = ParameterProvider.get("banking.manager.success.message");
         String actualMessage = managerPage.acceptAlertAndGetText();
-        Assert.assertTrue(actualMessage.contains(expectedMessage), "Alert should confirm customer addition, but was: " + actualMessage);
+        Checker.assertTextContains(actualMessage, expectedMessage, "Alert should confirm customer addition, but was: " + actualMessage);
     }
 
     @Test(description = "Bank Manager: открытие счёта для последнего клиента в списке – alert об успехе")
@@ -55,7 +55,7 @@ public class BankingManagerPageTest extends BaseTest {
 
         String expectedMessage = ParameterProvider.get("banking.manager.account.success.message");
         String actualMessage = managerPage.acceptAlertAndGetText();
-        Assert.assertTrue(actualMessage.contains(expectedMessage), "Alert should confirm account, but was: " + actualMessage);
+        Checker.assertTextContains(actualMessage, expectedMessage, "Alert should confirm account, but was: " + actualMessage);
     }
 
     @Test(description = "Bank Manager: создание клиента со счётом, последующее удаление и проверка отсутствия в таблице")
@@ -69,10 +69,10 @@ public class BankingManagerPageTest extends BaseTest {
         );
         managerPage.clickCustomersButton();
         managerPage.searchCustomer(firstName);
-        Assert.assertTrue(managerPage.getCustomerCount() > 0, "Customer should be present in the table after search");
+        Checker.assertTrue(managerPage.getCustomerCount() > 0, "Customer should be present in the table after search");
         managerPage.deleteFirstCustomerInTable();
         managerPage.clearSearchField();
         List<String> firstNames = managerPage.getCustomerFirstNames();
-        Assert.assertFalse(firstNames.contains(firstName), "Deleted customer should not appear in the customer list");
+        Checker.assertFalse(firstNames.contains(firstName), "Deleted customer should not appear in the customer list");
     }
 }
