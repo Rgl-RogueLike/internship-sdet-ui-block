@@ -4,6 +4,7 @@ import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.HomePage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.Checker;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -14,6 +15,8 @@ import java.util.List;
  * <p>Проверяет видимость основных блоков, контакты в хедере,
  * поведение слайдера курсов и содержимое футера.
  */
+@Epic("Главная страница")
+@Feature("Основные элементы")
 public class HomePageTest extends BaseTest {
 
     private HomePage homePage;
@@ -29,6 +32,8 @@ public class HomePageTest extends BaseTest {
     }
 
     @Test(description = "Главная страница: все основные блоки (хедер, навигация, регистрация, курсы, футер) видны после загрузки")
+    @Story("Проверка видимости всех блоков")
+    @Severity(SeverityLevel.NORMAL)
     public void mainElementsShouldBeVisibleWhenHomePageLoads() {
         Checker.assertTrue(homePage.isPageLoaded(), "Home page should be loaded");
         Checker.assertTrue(homePage.isHeaderVisible(), "Header should be visible");
@@ -40,6 +45,8 @@ public class HomePageTest extends BaseTest {
     }
 
     @Test(description = "Главная страница: хедер содержит телефоны, Skype, Email и ссылки на соцсети")
+    @Story("Проверка контактной информации в хедере")
+    @Severity(SeverityLevel.MINOR)
     public void headerContactsShouldBePresentWhenHomePageLoads() {
         Checker.assertTrue(homePage.getHeaderPhoneCount() > 0, "Header should contain phone numbers");
         Checker.assertTrue(homePage.isSkypeLinkPresent(), "Header should contain Skype link");
@@ -51,6 +58,8 @@ public class HomePageTest extends BaseTest {
     }
 
     @Test(description = "Главная страница: кнопки слайдера курсов не меняют заголовок активного слайда")
+    @Story("Проверка кнопок навигации слайдера")
+    @Severity(SeverityLevel.NORMAL)
     public void coursesSliderShouldNotSwitchWhenNavigationButtonsClicked() {
         homePage.scrollToCoursesSection();
         Checker.assertTrue(homePage.isCourseSliderVisible(), "Courses section should be visible");
@@ -68,6 +77,8 @@ public class HomePageTest extends BaseTest {
     }
 
     @Test(description = "Главная страница: футер содержит адрес, телефон и email")
+    @Story("Проверка содержимого футера")
+    @Severity(SeverityLevel.NORMAL)
     public void footerShouldBeVisibleAndContainAddressPhoneAndEmails() {
         homePage.scrollToFooter();
         Checker.assertTrue(homePage.isFooterVisible(), "Footer should be visible");

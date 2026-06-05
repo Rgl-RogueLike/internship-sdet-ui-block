@@ -6,6 +6,7 @@ import com.haritonov.uitests.pages.banking.BankingHomePage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.Checker;
 import com.haritonov.uitests.utils.TestDataGenerator;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,6 +17,8 @@ import java.util.List;
  * <p>Включает создание клиента, открытие счёта для последнего клиента
  * и удаление клиента после создания счёта.
  */
+@Epic("Банковское приложение")
+@Feature("Bank Manager")
 public class BankingManagerPageTest extends BaseTest {
 
     BankManagerPage managerPage;
@@ -34,6 +37,8 @@ public class BankingManagerPageTest extends BaseTest {
     }
 
     @Test(description = "Bank Manager: добавление нового клиента – появляется alert об успехе")
+    @Story("Добавление клиента")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldDisplaySuccessAlertWhenAddingCustomerWithValidData() {
         managerPage.clickAddCustomerButton()
                 .enterFirstName(TestDataGenerator.getRandomFirstName())
@@ -47,6 +52,8 @@ public class BankingManagerPageTest extends BaseTest {
     }
 
     @Test(description = "Bank Manager: открытие счёта для последнего клиента в списке – alert об успехе")
+    @Story("Открытие счёта")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldDisplayAlertWhenOpeningAccountForLastCreatedCustomer() {
         managerPage.clickOpenCustomerButton()
                 .selectLastCustomer()
@@ -59,6 +66,8 @@ public class BankingManagerPageTest extends BaseTest {
     }
 
     @Test(description = "Bank Manager: создание клиента со счётом, последующее удаление и проверка отсутствия в таблице")
+    @Story("Удаление клиента")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldDeleteCustomerAfterCreatingAccount() {
         String firstName = TestDataGenerator.getRandomFirstName();
         managerPage.createCustomerWithAccount(
