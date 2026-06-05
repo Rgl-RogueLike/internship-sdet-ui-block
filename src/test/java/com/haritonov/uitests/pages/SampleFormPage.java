@@ -1,5 +1,6 @@
 package com.haritonov.uitests.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -58,6 +59,7 @@ public class SampleFormPage extends BasePage {
      * Страница загружена, когда видно поле First Name.
      */
     @Override
+    @Step("Проверить загрузку формы регистрации")
     public boolean isPageLoaded() {
         waiter.waitForVisibility(firstNameField);
         return firstNameField.isDisplayed();
@@ -69,6 +71,7 @@ public class SampleFormPage extends BasePage {
      * @param firstName имя
      * @return текущая страница
      */
+    @Step("Ввести имя '{firstName}'")
     public SampleFormPage enterFirstName(String firstName) {
         waiter.waitForVisibility(firstNameField);
         firstNameField.clear();
@@ -82,6 +85,7 @@ public class SampleFormPage extends BasePage {
      * @param lastName фамилия
      * @return текущая страница
      */
+    @Step("Ввести фамилию '{lastName}'")
     public SampleFormPage enterLastname(String lastName) {
         waiter.waitForVisibility(lastNameField);
         lastNameField.clear();
@@ -95,6 +99,7 @@ public class SampleFormPage extends BasePage {
      * @param email адрес электронной почты
      * @return текущая страница
      */
+    @Step("Ввести email '{email}'")
     public SampleFormPage enterEmail(String email) {
         waiter.waitForVisibility(emailField);
         emailField.clear();
@@ -108,6 +113,7 @@ public class SampleFormPage extends BasePage {
      * @param password пароль
      * @return текущая страница
      */
+    @Step("Ввести пароль")
     public SampleFormPage enterPassword(String password) {
         waiter.waitForVisibility(passwordField);
         passwordField.clear();
@@ -122,6 +128,7 @@ public class SampleFormPage extends BasePage {
      * @return текущая страница
      * @throws RuntimeException если чекбокс не найден
      */
+    @Step("Выбрать хобби '{hobbyValue}'")
     public SampleFormPage selectHobby(String hobbyValue) {
         WebElement checkbox = hobbyCheckboxes.stream()
                 .filter(cb -> cb.getAttribute("value").equals(hobbyValue))
@@ -138,6 +145,7 @@ public class SampleFormPage extends BasePage {
      * @param genderValue значение пола
      * @return текущая страница
      */
+    @Step("Выбрать пол '{genderValue}'")
     public SampleFormPage selectGender(String genderValue) {
         waiter.waitForVisibility(genderSelect);
         new Select(genderSelect).selectByValue(genderValue);
@@ -147,6 +155,7 @@ public class SampleFormPage extends BasePage {
     /**
      * @return список всех хобби в виде списка строк
      */
+    @Step("Получить список текстов хобби")
     public List<String> getHobbyText() {
         return hobbyLabels.stream()
                 .map(WebElement::getText)
@@ -160,6 +169,7 @@ public class SampleFormPage extends BasePage {
      *
      * @return самое длинное слово или пустую строку, если список хобби пуст
      */
+    @Step("Получить самое длинное слово из хобби")
     public String getLongestHobbyWord() {
         List<String> words = getHobbyText().stream()
                 .flatMap(text -> Arrays.stream(text.split("\\s+")))
@@ -176,6 +186,7 @@ public class SampleFormPage extends BasePage {
      * @param text текст для ввода
      * @return текущая страница
      */
+    @Step("Ввести текст в 'About Yourself'")
     public SampleFormPage enterAboutYourself(String text) {
         waiter.waitForVisibility(aboutField);
         aboutField.clear();
@@ -188,6 +199,7 @@ public class SampleFormPage extends BasePage {
      *
      * @return текущая страница
      */
+    @Step("Кликнуть Register")
     public SampleFormPage clickRegister() {
         click(registerButton);
         return this;
@@ -196,6 +208,7 @@ public class SampleFormPage extends BasePage {
     /**
      * @return {@code true}, если сообщение об успешной регистрации отображается
      */
+    @Step("Проверить видимость сообщения об успешной регистрации")
     public boolean isSuccessMessageVisible() {
         waiter.waitForVisibility(successMessage);
         return successMessage.isDisplayed();
@@ -204,6 +217,7 @@ public class SampleFormPage extends BasePage {
     /**
      * @return текст сообщения об успешной регистрации
      */
+    @Step("Получить текст сообщения об успешной регистрации")
     public String getSuccessMessageText() {
         waiter.waitForVisibility(successMessage);
         return successMessage.getText();

@@ -1,6 +1,7 @@
 package com.haritonov.uitests.pages;
 
 import com.haritonov.uitests.helpers.ParameterProvider;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -28,6 +29,7 @@ public class LifetimeMembershipPage extends BasePage {
      * "lifetime-membership-club" и совпадает с ожидаемым из конфигурации.
      */
     @Override
+    @Step("Проверить загрузку страницы Lifetime Membership")
     public boolean isPageLoaded() {
         waiter.waitForUrlContains("lifetime-membership-club");
         return driver.getCurrentUrl().equals(ParameterProvider.get("lifetime.membership.url"));
@@ -36,6 +38,7 @@ public class LifetimeMembershipPage extends BasePage {
     /**
      * @return текст заголовка страницы
      */
+    @Step("Получить заголовок страницы")
     public String getTextTitle() {
         return getText(pageTitle);
     }

@@ -1,5 +1,6 @@
 package com.haritonov.uitests.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -90,6 +91,7 @@ public class HomePage extends BasePage {
      * Страница считается загруженной, когда виден блок навигации.
      */
     @Override
+    @Step("Проверить загрузку главной страницы")
     public boolean isPageLoaded() {
         try {
             waiter.waitForVisibility(mainNavigation);
@@ -102,6 +104,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если хедер отображается
      */
+    @Step("Проверить видимость хедера")
     public boolean isHeaderVisible() {
         waiter.waitForVisibility(header);
         return header.isDisplayed();
@@ -110,6 +113,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если блок навигации отображается
      */
+    @Step("Проверить видимость навигации")
     public boolean isNavigationVisible() {
         waiter.waitForVisibility(mainNavigation);
         return mainNavigation.isDisplayed();
@@ -118,6 +122,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если на странице видна хотя бы одна кнопка регистрации
      */
+    @Step("Проверить видимость кнопки регистрации")
     public boolean isRegistrationVisible() {
         if (registrationButtons.isEmpty()) {
             return false;
@@ -129,6 +134,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если секция курсов отображается и содержит карточки курсов
      */
+    @Step("Проверить видимость секции курсов")
     public boolean isCourseSectionVisible() {
         waiter.waitForVisibility(coursesSectionTitle);
         return coursesSectionTitle.isDisplayed() && !courseCards.isEmpty();
@@ -137,6 +143,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если футер отображается
      */
+    @Step("Проверить видимость футера")
     public boolean isFooterVisible() {
         waiter.waitForVisibility(footer);
         return footer.isDisplayed();
@@ -145,6 +152,7 @@ public class HomePage extends BasePage {
     /**
      * @return количество телефонных номеров в хедере
      */
+    @Step("Получить количество телефонов в хедере")
     public int getHeaderPhoneCount() {
         if (!headerPhones.isEmpty()) {
             waiter.waitForVisibility(headerPhones.get(0));
@@ -155,6 +163,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true} если Skype-ссылка видна
      */
+    @Step("Проверить видимость Skype-ссылки")
     public boolean isSkypeLinkPresent() {
         waiter.waitForVisibility(headerSkypeLink);
         return headerSkypeLink.isDisplayed();
@@ -163,6 +172,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true} если Email-ссылка видна
      */
+    @Step("Проверить видимость Email-ссылки")
     public boolean isEmailLinkPresent() {
         waiter.waitForVisibility(headerEmailLink);
         return headerEmailLink.isDisplayed();
@@ -171,6 +181,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true} если ссылка на Facebook видна
      */
+    @Step("Проверить видимость Facebook-ссылки")
     public boolean isFacebookLinkPresent() {
         waiter.waitForVisibility(headerFacebookLink);
         return headerFacebookLink.isDisplayed();
@@ -179,6 +190,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true} если ссылка на LinkedIn видна
      */
+    @Step("Проверить видимость LinkedIn-ссылки")
     public boolean isLinkedinLinkPresent() {
         waiter.waitForVisibility(headerLinkedinLink);
         return headerLinkedinLink.isDisplayed();
@@ -187,6 +199,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true} если ссылка на Instagram видна
      */
+    @Step("Проверить видимость Instagram-ссылки")
     public boolean isInstagramLinkPresent() {
         waiter.waitForVisibility(headerInstagramLink);
         return headerInstagramLink.isDisplayed();
@@ -195,6 +208,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true} если ссылка на YouTube видна
      */
+    @Step("Проверить видимость YouTube-ссылки")
     public boolean isYoutubeLinkPresent() {
         waiter.waitForVisibility(headerYoutubeLink);
         return headerYoutubeLink.isDisplayed();
@@ -203,6 +217,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если кнопка "предыдущий слайд" в карусели курсов видна
      */
+    @Step("Проверить видимость кнопки 'Предыдущий слайд'")
     public boolean isCoursesPrevButtonVisible() {
         waiter.waitForVisibility(coursesPrevButton);
         return coursesPrevButton.isDisplayed();
@@ -211,6 +226,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если кнопка "следующий слайд" в карусели курсов видна
      */
+    @Step("Проверить видимость кнопки 'Следующий слайд'")
     public boolean isCoursesNextButtonVisible() {
         waiter.waitForVisibility(coursesNextButton);
         return coursesNextButton.isDisplayed();
@@ -219,6 +235,7 @@ public class HomePage extends BasePage {
     /**
      * @return {@code true}, если слайдер курсов отображается
      */
+    @Step("Проверить видимость слайдера курсов")
     public boolean isCourseSliderVisible() {
         waiter.waitForVisibility(coursesSlider);
         return coursesSlider.isDisplayed();
@@ -229,6 +246,7 @@ public class HomePage extends BasePage {
      *
      * @return текущая страница для цепочек вызовов
      */
+    @Step("Кликнуть 'Предыдущий слайд'")
     public HomePage clickCoursesPrev() {
         click(coursesPrevButton);
         return this;
@@ -239,6 +257,7 @@ public class HomePage extends BasePage {
      *
      * @return текущая страница для цепочек вызовов
      */
+    @Step("Кликнуть 'Следующий слайд'")
     public HomePage clickCoursesNext() {
         click(coursesNextButton);
         return this;
@@ -247,6 +266,7 @@ public class HomePage extends BasePage {
     /**
      * @return текст заголовка активного слайда
      */
+    @Step("Получить заголовок активного слайда")
     public String getActiveSlideTitle() {
         return getText(activeCourseTitle).trim();
     }
@@ -254,6 +274,7 @@ public class HomePage extends BasePage {
     /**
      * Прокручивает страницу до секции курсов.
      */
+    @Step("Прокрутить до секции курсов")
     public void scrollToCoursesSection() {
         waiter.waitForVisibility(coursesNextButton);
         new Actions(driver)
@@ -264,6 +285,7 @@ public class HomePage extends BasePage {
     /**
      * Прокручивает страницу до футера.
      */
+    @Step("Прокрутить до футера")
     public void scrollToFooter() {
         waiter.waitForVisibility(footer);
         new Actions(driver)
@@ -276,6 +298,7 @@ public class HomePage extends BasePage {
      *
      * @return список строк (адрес, телефоны, email)
      */
+    @Step("Получить контактные тексты из секции ABOUT US")
     public List<String> getAboutUsContactTexts() {
         waiter.waitForVisibility(aboutUsTextElements.get(0));
         return aboutUsTextElements.stream()
@@ -290,6 +313,7 @@ public class HomePage extends BasePage {
      *
      * @return объект страницы LifetimeMembershipPage
      */
+    @Step("Перейти на страницу Lifetime Membership через меню")
     public LifetimeMembershipPage goToLifetimeMembership() {
         new Actions(driver)
                 .moveToElement(allCoursesMenu)
