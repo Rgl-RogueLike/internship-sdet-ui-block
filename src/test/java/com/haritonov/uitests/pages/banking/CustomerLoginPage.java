@@ -1,6 +1,7 @@
 package com.haritonov.uitests.pages.banking;
 
 import com.haritonov.uitests.pages.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -30,6 +31,7 @@ public class CustomerLoginPage extends BasePage {
      * @return true, если выпадающий список виден.
      */
     @Override
+    @Step("Проверить загрузку страницы выбора клиента")
     public boolean isPageLoaded() {
         waiter.waitForVisibility(userSelect);
         return userSelect.isDisplayed();
@@ -40,6 +42,7 @@ public class CustomerLoginPage extends BasePage {
      *
      * @param fullName имя + фамилия
      */
+    @Step("Выбрать клиента '{fullName}'")
     public CustomerLoginPage selectCustomer(String fullName) {
         waiter.waitForVisibility(userSelect);
         new Select(userSelect).selectByVisibleText(fullName);
@@ -51,6 +54,7 @@ public class CustomerLoginPage extends BasePage {
      *
      * @return новый объект {@link CustomerAccountPage}
      */
+    @Step("Кликнуть Login")
     public CustomerAccountPage clickLogin() {
         waiter.waitForVisibility(loginButton);
         click(loginButton);
@@ -65,6 +69,7 @@ public class CustomerLoginPage extends BasePage {
      * @param fullName полное имя
      * @return {@link CustomerAccountPage}
      */
+    @Step("Залогиниться как '{fullName}'")
     public CustomerAccountPage loginAs(String fullName) {
         selectCustomer(fullName);
         return clickLogin();

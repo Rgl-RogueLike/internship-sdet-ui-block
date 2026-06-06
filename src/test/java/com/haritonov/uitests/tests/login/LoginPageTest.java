@@ -4,6 +4,7 @@ import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.LoginPage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.Checker;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -12,6 +13,8 @@ import org.testng.annotations.Test;
  * <p>Проверяет состояние полей, успешный вход с валидными данными,
  * ошибку при невалидных данных и выход из системы.
  */
+@Epic("Авторизация")
+@Feature("Форма логина")
 public class LoginPageTest extends BaseTest {
 
     private LoginPage loginPage;
@@ -28,6 +31,8 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test(description = "Логин: поля Username и Password видны, кнопка Login заблокирована при пустых полях")
+    @Story("Проверка полей ввода")
+    @Severity(SeverityLevel.BLOCKER)
     public void fieldsShouldBeVisibleAndLoginButtonDisableWhenEmpty() {
         Checker.assertTrue(loginPage.isPageLoaded(), "Login page should be loaded");
         Checker.assertTrue(loginPage.isUsernameFieldVisible(), "Username field should be visible");
@@ -36,6 +41,8 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test(description = "Логин: успешная авторизация с валидными данными (angular/password)")
+    @Story("Успешная авторизация")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldLoginSuccessfullyWithValidCredentials() {
         loginPage.enterUsername(ParameterProvider.get("login.username"))
                 .enterPassword(ParameterProvider.get("login.password"))
@@ -51,6 +58,8 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test(description = "Логин: ошибка авторизации при неверных данных, сообщение 'Username or password is incorrect'")
+    @Story("Невалидная авторизация")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldDisplayErrorWhenUsingInvalidCredentials() {
         loginPage.enterUsername(ParameterProvider.get("login.invalid.username"))
                 .enterPassword(ParameterProvider.get("login.invalid.password"))
@@ -66,6 +75,8 @@ public class LoginPageTest extends BaseTest {
     }
 
     @Test(description = "Логин: после выхода из системы отображается форма входа")
+    @Story("Выход из системы")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldLogoutSuccessfullyAndReturnToLoginPage() {
         loginPage.enterUsername(ParameterProvider.get("login.username"))
                 .enterPassword(ParameterProvider.get("login.password"))

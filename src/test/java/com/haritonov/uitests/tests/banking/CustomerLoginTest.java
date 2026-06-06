@@ -7,6 +7,7 @@ import com.haritonov.uitests.pages.banking.CustomerAccountPage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.Checker;
 import com.haritonov.uitests.utils.TestDataGenerator;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,6 +17,8 @@ import org.testng.annotations.Test;
  * вход, пополнение (успешное и неуспешное), снятие (успешное и неуспешное),
  * сверку баланса, снятие всех средств и очистку истории транзакций.
  */
+@Epic("Банковское приложение")
+@Feature("Customer Account")
 public class CustomerLoginTest extends BaseTest {
 
     private CustomerAccountPage accountPage;
@@ -48,6 +51,8 @@ public class CustomerLoginTest extends BaseTest {
 
     @Test(description = "Жизненный цикл клиента: вход, успешное/неуспешное пополнение и снятие, сверка баланса, " +
             "снятие всех средств, очистка истории и финальный нулевой баланс")
+    @Story("Полный жизненный цикл клиента")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldPerformFulAccountLifecycleAndEndWithZeroBalance() {
         Checker.assertTrue(accountPage.isPageLoaded(), "Customer account page should be loaded");
         String expectedGreeting = "Welcome " + customerFullName;

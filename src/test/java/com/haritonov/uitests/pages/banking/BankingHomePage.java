@@ -2,6 +2,7 @@ package com.haritonov.uitests.pages.banking;
 
 import com.haritonov.uitests.pages.BasePage;
 import com.haritonov.uitests.pages.SampleFormPage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -32,6 +33,7 @@ public class BankingHomePage extends BasePage {
     /**
      * @return true, если кнопка "Sample Form" видна.
      */
+    @Step("Проверить загрузку домашней страницы банка")
     @Override
     public boolean isPageLoaded() {
         waiter.waitForVisibility(sampleFormButton);
@@ -43,6 +45,7 @@ public class BankingHomePage extends BasePage {
      *
      * @return новый объект {@link SampleFormPage}
      */
+    @Step("Перейти на Sample Form")
     public SampleFormPage goToSampleFormPage() {
         click(sampleFormButton);
         return new SampleFormPage(driver);
@@ -53,6 +56,7 @@ public class BankingHomePage extends BasePage {
      *
      * @return новый объект {@link BankManagerPage}
      */
+    @Step("Перейти на Bank Manager Login")
     public BankManagerPage goToBankManagerPage() {
         click(bankManagerButton);
         return new BankManagerPage(driver);
@@ -63,6 +67,7 @@ public class BankingHomePage extends BasePage {
      *
      * @return новый объект {@link CustomerLoginPage}
      */
+    @Step("Перейти на Customer Login")
     public CustomerLoginPage goToCustomerLogin() {
         click(customerLoginButton);
         return new CustomerLoginPage(driver);

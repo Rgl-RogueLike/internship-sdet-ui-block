@@ -6,6 +6,7 @@ import com.haritonov.uitests.pages.banking.BankingHomePage;
 import com.haritonov.uitests.tests.BaseTest;
 import com.haritonov.uitests.utils.Checker;
 import com.haritonov.uitests.utils.TestDataGenerator;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -14,6 +15,8 @@ import org.testng.annotations.Test;
  * <p>Проверяет заполнение формы случайными данными, выбор хобби,
  * вставку самого длинного слова из списка хобби и появление сообщения об успехе.
  */
+@Epic("Банковское приложение")
+@Feature("Sample Form")
 public class SampleFormTest extends BaseTest {
 
     private BankingHomePage bankingHomePage;
@@ -31,6 +34,8 @@ public class SampleFormTest extends BaseTest {
 
     @Test(description = "Sample Form: заполнение формы случайными данными, выбор хобби Sports, " +
             "ввод самого длинного слова из хобби и проверка сообщения об успешной регистрации")
+    @Story("Регистрация с хобби")
+    @Severity(SeverityLevel.NORMAL)
     public void shouldBeRegisterWithLongestHobbyMessage() {
         Checker.assertTrue(bankingHomePage.isPageLoaded(), "Banking home page should be loaded");
         SampleFormPage sampleFormPage = bankingHomePage.goToSampleFormPage();

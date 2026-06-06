@@ -1,6 +1,7 @@
 package com.haritonov.uitests.pages.banking;
 
 import com.haritonov.uitests.pages.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -62,6 +63,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @return true, если кнопка "Add Customer" видна.
      */
+    @Step("Проверить загрузку страницы Bank Manager")
     @Override
     public boolean isPageLoaded() {
         waiter.waitForVisibility(addCustomerButton);
@@ -71,6 +73,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Открывает вкладку Add Customer.
      */
+    @Step("Кликнуть Add Customer")
     public BankManagerPage clickAddCustomerButton() {
         click(addCustomerButton);
         return this;
@@ -79,6 +82,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @param firstName имя
      */
+    @Step("Ввести имя '{firstName}'")
     public BankManagerPage enterFirstName(String firstName) {
         waiter.waitForVisibility(firstNameField);
         firstNameField.clear();
@@ -89,6 +93,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @param lastName фамилия
      */
+    @Step("Ввести фамилию '{lastName}'")
     public BankManagerPage enterLastName(String lastName) {
         waiter.waitForVisibility(lastNameField);
         lastNameField.clear();
@@ -99,6 +104,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @param postCode почтовый индекс
      */
+    @Step("Ввести почтовый индекс '{postCode}'")
     public BankManagerPage enterPostCode(String postCode) {
         waiter.waitForVisibility(postCodeField);
         postCodeField.clear();
@@ -109,6 +115,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Отправляет форму Add Customer.
      */
+    @Step("Отправить форму Add Customer")
     public BankManagerPage submitAddCustomer() {
         click(addCustomerSubmitButton);
         return this;
@@ -119,6 +126,7 @@ public class BankManagerPage extends BasePage {
      *
      * @return текст алерта
      */
+    @Step("Принять алерт и получить текст")
     public String acceptAlertAndGetText() {
         return waiter.waitForAlertAndAccept();
     }
@@ -126,6 +134,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Открывает вкладку Open Account и ждёт появления списка клиентов.
      */
+    @Step("Открыть вкладку Open Account")
     public BankManagerPage clickOpenCustomerButton() {
         click(openCustomerButton);
         waiter.waitForVisibility(customerSelect);
@@ -135,6 +144,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Выбирает последнего клиента в выпадающем списке.
      */
+    @Step("Выбрать последнего клиента")
     public BankManagerPage selectLastCustomer() {
         Select select = new Select(customerSelect);
         List<WebElement> options = select.getOptions();
@@ -146,6 +156,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @param name полное имя клиента (First + Last)
      */
+    @Step("Выбрать клиента по имени '{name}'")
     public BankManagerPage selectCustomerByName(String name) {
         new Select(customerSelect).selectByVisibleText(name);
         return this;
@@ -154,6 +165,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @param currency валюта (Dollar, Pound, Rupee)
      */
+    @Step("Выбрать валюту '{currency}'")
     public BankManagerPage selectCurrency(String currency) {
         new Select(currencySelect).selectByVisibleText(currency);
         return this;
@@ -162,6 +174,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Нажимает кнопку Process для открытия счёта.
      */
+    @Step("Нажать Process")
     public BankManagerPage clickProcess() {
         click(processButton);
         return this;
@@ -176,6 +189,7 @@ public class BankManagerPage extends BasePage {
      * @param currency  валюта
      * @return полное имя созданного клиента
      */
+    @Step("Создать клиента со счётом: '{firstName} {lastName}'")
     public String createCustomerWithAccount(String firstName, String lastName, String postCode, String currency) {
         clickAddCustomerButton()
                 .enterFirstName(firstName)
@@ -195,6 +209,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Открывает вкладку Customers.
      */
+    @Step("Перейти на вкладку Customers")
     public BankManagerPage clickCustomersButton() {
         click(customersButton);
         waiter.waitForVisibility(searchCustomerInput);
@@ -204,6 +219,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @param firstName имя для поиска
      */
+    @Step("Найти клиента по имени '{firstName}'")
     public BankManagerPage searchCustomer(String firstName) {
         searchCustomerInput.clear();
         searchCustomerInput.sendKeys(firstName);
@@ -213,6 +229,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @return количество строк в таблице клиентов
      */
+    @Step("Получить количество клиентов в таблице")
     public int getCustomerCount() {
         return driver.findElements(CUSTOMER_ROWS).size();
     }
@@ -220,6 +237,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Удаляет первую строку в таблице клиентов.
      */
+    @Step("Удалить первого клиента из таблицы")
     public BankManagerPage deleteFirstCustomerInTable() {
         List<WebElement> rows = driver.findElements(CUSTOMER_ROWS);
         if (rows.isEmpty()) {
@@ -233,6 +251,7 @@ public class BankManagerPage extends BasePage {
     /**
      * Очищает поле поиска клиентов.
      */
+    @Step("Очистить поле поиска")
     public BankManagerPage clearSearchField() {
         searchCustomerInput.clear();
         return this;
@@ -241,6 +260,7 @@ public class BankManagerPage extends BasePage {
     /**
      * @return список первых имён (First Name) всех видимых клиентов
      */
+    @Step("Получить список первых имён клиентов")
     public List<String> getCustomerFirstNames() {
         List<WebElement> rows = driver.findElements(CUSTOMER_ROWS);
         return rows.stream()

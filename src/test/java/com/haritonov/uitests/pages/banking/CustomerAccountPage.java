@@ -2,6 +2,7 @@ package com.haritonov.uitests.pages.banking;
 
 import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.pages.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -67,6 +68,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * @return true, если видно приветственное сообщение.
      */
+    @Step("Проверить загрузку страницы аккаунта")
     @Override
     public boolean isPageLoaded() {
         waiter.waitForVisibility(welcomeMessage);
@@ -76,6 +78,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * @return текст приветствия
      */
+    @Step("Получить приветственное сообщение")
     public String getWelcomeMessage() {
         return getText(welcomeMessage);
     }
@@ -83,6 +86,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * Открывает вкладку Deposit.
      */
+    @Step("Открыть вкладку Deposit")
     public CustomerAccountPage clickDepositButton() {
         click(depositButton);
         return this;
@@ -91,6 +95,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * @param amount сумма для ввода
      */
+    @Step("Ввести сумму '{amount}'")
     public CustomerAccountPage enterAmount(String amount) {
         waiter.waitForVisibility(amountInput);
         amountInput.clear();
@@ -101,6 +106,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * Нажимает кнопку подтверждения транзакции (Deposit/Withdraw).
      */
+    @Step("Подтвердить транзакцию")
     public CustomerAccountPage submitTransaction() {
         click(depositSubmitButton);
         return this;
@@ -111,6 +117,7 @@ public class CustomerAccountPage extends BasePage {
      *
      * @return true, если сообщение появилось.
      */
+    @Step("Проверить видимость сообщения 'Deposit Successful'")
     public boolean isDepositSuccessMessageVisible() {
         try {
             waiter.waitForVisibility(depositSuccessMessage);
@@ -123,6 +130,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * Переходит на вкладку Transactions и ждёт загрузки.
      */
+    @Step("Перейти на вкладку Transactions")
     public CustomerAccountPage goToTransactions() {
         waiter.waitForTransactionToProcess(Long.parseLong(ParameterProvider.get("banking.customer.transaction.pause.millis")));
         click(transactionsButton);
@@ -133,6 +141,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * Возвращается на главную страницу аккаунта (кнопка Back).
      */
+    @Step("Вернуться на главную страницу аккаунта")
     public CustomerAccountPage goBackToAccount() {
         click(backButton);
         return this;
@@ -143,6 +152,7 @@ public class CustomerAccountPage extends BasePage {
      *
      * @param amount сумма
      */
+    @Step("Выполнить депозит на сумму '{amount}'")
     public CustomerAccountPage depositAmount(String amount) {
         clickDepositButton()
                 .enterAmount(amount)
@@ -156,6 +166,7 @@ public class CustomerAccountPage extends BasePage {
      * @param amount сумма для поиска
      * @return true, если сумма найдена.
      */
+    @Step("Проверить наличие транзакции с суммой '{amount}'")
     public boolean hasTransactionWithAmount(String amount) {
         goToTransactions();
         List<String> amounts = getTransactionAmount();
@@ -167,6 +178,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * @return список сумм всех транзакций (столбец Amount)
      */
+    @Step("Получить список сумм транзакций")
     public List<String> getTransactionAmount() {
         return driver.findElements(TRANSACTION_ROWS).stream()
                 .map(row -> row.findElement(By.xpath("./td[2]")).getText())
@@ -176,6 +188,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * Открывает вкладку Withdrawal.
      */
+    @Step("Открыть вкладку Withdrawal")
     public CustomerAccountPage clickWithdrawalButton() {
         click(withdrawlButton);
         return this;
@@ -186,6 +199,7 @@ public class CustomerAccountPage extends BasePage {
      *
      * @return true, если сообщение появилось.
      */
+    @Step("Проверить видимость сообщения 'Transaction successful'")
     public boolean isWithdrawalSuccessMessageVisible() {
         try {
             waiter.waitForVisibility(withdrawlSuccessMessage);
@@ -198,6 +212,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * @return числовое значение текущего баланса
      */
+    @Step("Получить текущий баланс")
     public int getBalanceNumeric() {
         String balanceText = getText(balanceValue);
         return Integer.parseInt(balanceText.trim());
@@ -208,6 +223,7 @@ public class CustomerAccountPage extends BasePage {
      *
      * @param amount сумма
      */
+    @Step("Выполнить снятие суммы '{amount}'")
     public CustomerAccountPage withdrawlAmount(String amount) {
         clickWithdrawalButton()
                 .enterAmount(amount)
@@ -220,6 +236,7 @@ public class CustomerAccountPage extends BasePage {
      *
      * @return true, если сообщение появилось.
      */
+    @Step("Проверить видимость сообщения об ошибке 'Transaction Failed'")
     public boolean isWithdrawalErrorMessageVisible() {
         try {
             waiter.waitForVisibility(withdrawalErrorMessage);
@@ -235,6 +252,7 @@ public class CustomerAccountPage extends BasePage {
      *
      * @return вычисленный баланс
      */
+    @Step("Рассчитать баланс из таблицы транзакций")
     public int calculateBalanceFromTransactions() {
         goToTransactions();
         int balance = driver.findElements(TRANSACTION_ROWS).stream()
@@ -251,6 +269,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * Нажимает кнопку Reset в транзакциях.
      */
+    @Step("Нажать Reset в транзакциях")
     public CustomerAccountPage clickResetButton() {
         click(resetButton);
         return this;
@@ -259,6 +278,7 @@ public class CustomerAccountPage extends BasePage {
     /**
      * @return количество строк в таблице транзакций
      */
+    @Step("Получить количество транзакций")
     public int getTransactionCount() {
         waiter.waitForTransactionToProcess(Long.parseLong(ParameterProvider.get("banking.customer.transaction.pause.millis")));
         return driver.findElements(TRANSACTION_ROWS).size();
