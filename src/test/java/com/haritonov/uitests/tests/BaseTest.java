@@ -20,6 +20,10 @@ public abstract class BaseTest {
     protected WebDriver driver;
     protected Waiter waiter;
 
+    public WebDriver getDriver() {
+        return driver;
+    }
+
     /**
      * Инициализирует WebDriver, Waiter и открывает главную страницу.
      */
