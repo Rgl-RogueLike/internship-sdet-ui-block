@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Page Object, представляющий страницу аккаунта клиента после входа.
@@ -101,6 +102,20 @@ public class CustomerAccountPage extends BasePage {
         amountInput.clear();
         amountInput.sendKeys(amount);
         return this;
+    }
+
+    /**
+     * Проверяет видимость кнопки Deposit.
+     *
+     * @return true, если кнопка видна.
+     */
+    @Step("Проверяет видимость кнопки депозита")
+    public boolean isDepositButtonVisible() {
+        try {
+            return depositButton.isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
     }
 
     /**
