@@ -2,6 +2,7 @@
 <suite name="Way2Automation Suite">
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
     </listeners>
     <test name="Home Page Tests">
         <classes>
@@ -31,6 +32,11 @@
     <test name="Sample Form Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.banking.SampleFormTest"/>
+        </classes>
+    </test>
+    <test name="Fail test">
+        <classes>
+            <class name="com.haritonov.uitests.tests.fail.FailTest"/>
         </classes>
     </test>
 </suite>
