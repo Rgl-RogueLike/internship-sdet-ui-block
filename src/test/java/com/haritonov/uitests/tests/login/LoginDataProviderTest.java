@@ -8,7 +8,6 @@ import com.haritonov.uitests.utils.Checker;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -25,8 +24,8 @@ public class LoginDataProviderTest extends BaseTest {
     }
 
     @Test(dataProvider = "loginCredentials",
-        dataProviderClass = DataProviders.class,
-        description = "Параметризированный тест авторизации: валидные и невалидные данные")
+            dataProviderClass = DataProviders.class,
+            description = "Параметризированный тест авторизации: валидные и невалидные данные")
     @Story("Авторизация с разными наборами данных")
     @Severity(SeverityLevel.CRITICAL)
     public void testLoginWithDifferentCredentials(String username, String password, String description, String expectedMessageKey) {

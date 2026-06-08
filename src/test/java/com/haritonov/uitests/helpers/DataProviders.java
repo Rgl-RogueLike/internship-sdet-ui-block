@@ -17,28 +17,29 @@ public class DataProviders {
      *   <li>описание (для поля Username*)</li>
      *   <li>ключ ожидаемого сообщения в конфигурации</li>
      * </ol>
+     *
      * @return двумерный массив объектов, готовый к использованию в TestNG
      */
     @DataProvider(name = "loginCredentials")
     public static Object[][] loginCredentials() {
-        return new Object[][] {
+        return new Object[][]{
                 {
-                    ParameterProvider.get("login.dataset.valid.username"),
-                    ParameterProvider.get("login.dataset.valid.password"),
-                    ParameterProvider.get("login.dataset.valid.description"),
-                    ParameterProvider.get("login.dataset.valid.expected.key")
+                        ParameterProvider.get("login.dataset.valid.username"),
+                        ParameterProvider.get("login.dataset.valid.password"),
+                        ParameterProvider.get("login.dataset.valid.description"),
+                        ParameterProvider.get("login.dataset.valid.expected.key")
                 },
                 {
-                    ParameterProvider.get("login.dataset.invalid.username"),
-                    ParameterProvider.get("login.dataset.invalid.password"),
-                    ParameterProvider.get("login.dataset.invalid.description"),
-                    ParameterProvider.get("login.dataset.invalid.expected.key")
+                        ParameterProvider.get("login.dataset.invalid.username"),
+                        ParameterProvider.get("login.dataset.invalid.password"),
+                        ParameterProvider.get("login.dataset.invalid.description"),
+                        ParameterProvider.get("login.dataset.invalid.expected.key")
                 },
                 {
-                    ParameterProvider.get("login.dataset.wrongpass.username"),
-                    ParameterProvider.get("login.dataset.wrongpass.password"),
-                    ParameterProvider.get("login.dataset.wrongpass.description"),
-                    ParameterProvider.get("login.dataset.wrongpass.expected.key")
+                        ParameterProvider.get("login.dataset.wrongpass.username"),
+                        ParameterProvider.get("login.dataset.wrongpass.password"),
+                        ParameterProvider.get("login.dataset.wrongpass.description"),
+                        ParameterProvider.get("login.dataset.wrongpass.expected.key")
                 }
         };
     }

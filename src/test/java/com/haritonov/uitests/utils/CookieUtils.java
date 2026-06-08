@@ -19,7 +19,7 @@ public class CookieUtils {
      * Сохраняет переданный набор cookies в файл.
      * <p>Внутри {@link Set} преобразуется в {@link ArrayList} для сериализации.
      *
-     * @param cookies набор cookies, полученный от {@code driver.manage().getCookies()}
+     * @param cookies  набор cookies, полученный от {@code driver.manage().getCookies()}
      * @param filePath путь к файлу, в который будут сохранены cookies
      * @throws RuntimeException если произошла ошибка ввода-вывода
      */
@@ -36,7 +36,7 @@ public class CookieUtils {
      * <p>Перед вызовом этого метода драйвер уже должен находиться на домене,
      * для которого предназначены cookies.
      *
-     * @param driver текущий экземпляр {@link WebDriver}
+     * @param driver   текущий экземпляр {@link WebDriver}
      * @param filePath путь к файлу с сохранёнными cookies
      * @throws RuntimeException если файл не найден, повреждён или cookies не могут быть добавлены
      */

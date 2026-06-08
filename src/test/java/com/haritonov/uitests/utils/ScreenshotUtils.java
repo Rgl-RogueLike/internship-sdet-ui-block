@@ -24,13 +24,13 @@ public class ScreenshotUtils {
      * Скриншот делается с прокруткой (viewportPasting), время задержки
      * между скроллами берётся из конфигурации {@code screenshot.scroll.timeout}.
      *
-     * @param driver активный WebDriver
+     * @param driver   активный WebDriver
      * @param testName имя теста
      */
     public static void attachScreenshotOnFailure(WebDriver driver, String testName) {
         try {
             int scrollTimeout = Integer.parseInt(ParameterProvider.get("screenshot.scroll.timeout"));
-             Screenshot screenshot = new AShot()
+            Screenshot screenshot = new AShot()
                     .shootingStrategy(ShootingStrategies.viewportPasting(scrollTimeout))
                     .takeScreenshot(driver);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -41,7 +41,7 @@ public class ScreenshotUtils {
                     "png",
                     baos.toByteArray()
             );
-        } catch (IOException e ) {
+        } catch (IOException e) {
 
         }
     }
