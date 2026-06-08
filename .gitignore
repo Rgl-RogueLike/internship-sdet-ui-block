@@ -42,3 +42,4 @@ allure-results/*
 !allure-results/screenshots/
 allure-report/
 .allure
+/src/test/resources/configurations/mysettings.properties
