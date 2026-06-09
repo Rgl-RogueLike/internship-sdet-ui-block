@@ -1,9 +1,13 @@
 package com.haritonov.uitests.pages;
 
+import com.haritonov.uitests.helpers.ParameterProvider;
+import com.haritonov.uitests.utils.CookieUtils;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.io.File;
 
 /**
  * Page Object для страницы упражнений sql-ex.ru.
@@ -22,6 +26,10 @@ public class LearnExercisesPage extends BasePage {
 
     @FindBy(name = "frmlogin")
     private WebElement loginForm;
+
+    private final String cookiesFilePath = ParameterProvider.get("cookies.file.path");
+    private final String learnUrl = ParameterProvider.get("sql.ex.learn.url");
+
 
     /**
      * Создаёт LearnExercisesPage и инициализирует его элементы.
@@ -91,5 +99,50 @@ public class LearnExercisesPage extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * Авторизует пользователя.
+     * Сначала пробует войти через cookies, если не выходит — через логин/пароль.
+     *
+     * @return {@code true}, если авторизация успешна
+     */
+    @Step("Выполнить авторизацию")
+    public boolean loginUsingCookiesOrCredentials() {
+        driver.get(learnUrl);
+        if (tryLoginWithCookies()) {
+            return true;
+        }
+        loginWithCredentials();
+        return !isLoginFormDisplayed();
+    }
+
+    /**
+     * Пытается авторизоваться, используя сохранённые cookies.
+     *
+     * @return {@code true}, если cookies сработали
+     */
+    @Step("Попытаться войти через cookies")
+    private boolean tryLoginWithCookies() {
+        File cookieFile = new File(cookiesFilePath);
+        if (!cookieFile.exists()) {
+            return false;
+        }
+        driver.manage().deleteAllCookies();
+        CookieUtils.loadCookiesFromFile(driver, cookiesFilePath);
+        driver.get(learnUrl);
+        return !isLoginFormDisplayed();
+    }
+
+    /**
+     * Выполняет вход через форму логина и пароля, затем сохраняет cookies.
+     */
+    @Step("Войти через форму логина")
+    private void loginWithCredentials() {
+        waiter.waitForVisibility(loginField);
+        enterLogin(ParameterProvider.get("sql.ex.username"))
+                .enterPassword(ParameterProvider.get("sql.ex.password"))
+                .clickLogin();
+        CookieUtils.saveCookiesToFile(driver.manage().getCookies(), cookiesFilePath);
     }
 }
