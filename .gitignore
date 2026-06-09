@@ -43,3 +43,6 @@ allure-results/*
 allure-report/
 .allure
 /src/test/resources/configurations/mysettings.properties
+
+### Cookies ###
+cookies/
