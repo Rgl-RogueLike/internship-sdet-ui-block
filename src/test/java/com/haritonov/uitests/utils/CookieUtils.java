@@ -51,19 +51,4 @@ public class CookieUtils {
             throw new RuntimeException("Failed to load cookies from " + filePath, e);
         }
     }
-
-    /**
-     * Удаляет файл по указанному пути, если он существует.
-     * <p>Используется для очистки cookies перед первым тестом,
-     * чтобы гарантировать чистую сессию.
-     *
-     * @param filePath путь к файлу
-     * @throws RuntimeException если файл существует, но не может быть удалён
-     */
-    public static void deleteFile(String filePath) {
-        File file = new File(filePath);
-        if (file.exists() && !file.delete()) {
-            throw new RuntimeException("Failed to delete file: " + filePath);
-        }
-    }
 }
