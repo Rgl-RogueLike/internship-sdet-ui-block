@@ -9,26 +9,28 @@ import org.testng.annotations.DataProvider;
 public class DataProviders {
 
     /**
-     * Наборы учётных данных для параметризованного теста авторизации.
-     * <p>Каждый набор содержит четыре строки:
-     * <ol>
-     *   <li>имя пользователя</li>
-     *   <li>пароль</li>
-     *   <li>описание (для поля Username*)</li>
-     *   <li>ключ ожидаемого сообщения в конфигурации</li>
-     * </ol>
-     *
-     * @return двумерный массив объектов, готовый к использованию в TestNG
+     * Наборы валидных учётных данных для теста успешной авторизации.
+     * @return двумерный массив объектов
      */
-    @DataProvider(name = "loginCredentials")
+    @DataProvider(name = "validLoginCredentials")
     public static Object[][] loginCredentials() {
         return new Object[][]{
                 {
-                        ParameterProvider.get("login.dataset.valid.username"),
-                        ParameterProvider.get("login.dataset.valid.password"),
-                        ParameterProvider.get("login.dataset.valid.description"),
-                        ParameterProvider.get("login.dataset.valid.expected.key")
-                },
+                    ParameterProvider.get("login.dataset.valid.username"),
+                    ParameterProvider.get("login.dataset.valid.password"),
+                    ParameterProvider.get("login.dataset.valid.description"),
+                    ParameterProvider.get("login.dataset.valid.expected.key")
+                }
+        };
+    }
+
+    /**
+     * Наборы невалидных учётных данных для теста неуспешной авторизации.
+     * @return двумерный массив объектов
+     */
+    @DataProvider(name = "invalidLoginCredentials")
+    public static Object[][] invalidLoginCredentials() {
+        return new Object[][] {
                 {
                         ParameterProvider.get("login.dataset.invalid.username"),
                         ParameterProvider.get("login.dataset.invalid.password"),

@@ -23,10 +23,10 @@ public class LoginDataProviderTest extends BaseTest {
         loginPage = new LoginPage(driver);
     }
 
-    @Test(dataProvider = "loginCredentials",
-            dataProviderClass = DataProviders.class,
-            description = "Параметризированный тест авторизации: валидные и невалидные данные")
-    @Story("Авторизация с разными наборами данных")
+    @Test(dataProvider = "validLoginCredentials",
+        dataProviderClass = DataProviders.class,
+        description = "Параметризированный тест успешной авторизации")
+    @Story("Авторизация с валидными данными")
     @Severity(SeverityLevel.CRITICAL)
     public void testLoginWithDifferentCredentials(String username, String password, String description, String expectedMessageKey) {
         loginPage.enterUsername(username)
@@ -36,16 +36,28 @@ public class LoginDataProviderTest extends BaseTest {
         loginPage.clickLoginButton();
         String expectedMessage = ParameterProvider.get(expectedMessageKey);
 
-        if (expectedMessageKey.equals("login.success.message")) {
-            Checker.assertTrue(loginPage.isSuccessMessageVisible(),
-                    "Success message should be visible");
-            Checker.assertEquals(expectedMessage, loginPage.getSuccessMessageText(),
-                    "Success message text mismatch");
-        } else {
-            Checker.assertTrue(loginPage.isErrorMessageVisible(),
-                    "Error message should be visible");
-            Checker.assertEquals(expectedMessage, loginPage.getErrorMessageText(),
-                    "Error message text mismatch");
-        }
+        Checker.assertTrue(loginPage.isSuccessMessageVisible(),
+                "Success message should be visible");
+        Checker.assertEquals(expectedMessage, loginPage.getSuccessMessageText(),
+                "Success message text mismatch");
     }
+
+    @Test(dataProvider = "invalidLoginCredentials",
+        dataProviderClass = DataProviders.class,
+        description = "Параметризированный тест неуспешной авторизации")
+    @Story("Неуспешная авторизация с невалидными данными")
+    @Severity(SeverityLevel.CRITICAL)
+    public void testInvalidLogin(String username, String password, String description, String expectedMessageKey) {
+        loginPage.enterUsername(username)
+                .enterPassword(password)
+                .enterUsernameDescription(description);
+        Checker.assertTrue(loginPage.isLoginButtonEnabled(), "Login button should be enabled after filling the fields");
+        loginPage.clickLoginButton();
+        String expectedMessage = ParameterProvider.get(expectedMessageKey);
+        Checker.assertTrue(loginPage.isErrorMessageVisible(),
+                "Error message should be visible");
+        Checker.assertEquals(expectedMessage, loginPage.getErrorMessageText(),
+                "Error message text mismatch");
+    }
+
 }
