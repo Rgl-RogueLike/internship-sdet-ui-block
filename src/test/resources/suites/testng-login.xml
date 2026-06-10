@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Login Suite">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
+    </listeners>
+    <test name="Login Page Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.login.LoginPageTest"/>
+            <class name="com.haritonov.uitests.tests.login.LoginDataProviderTest"/>
+        </classes>
+    </test>
+</suite>

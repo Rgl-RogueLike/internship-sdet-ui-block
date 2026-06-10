@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Cookies and JS Suite">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
+    </listeners>
+    <test name="Cookie Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.cookies.CookieTest"/>
+        </classes>
+    </test>
+    <test name="JavaScript Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.javascript.JavaScriptExecutorTest"/>
+        </classes>
+    </test>
+</suite>
