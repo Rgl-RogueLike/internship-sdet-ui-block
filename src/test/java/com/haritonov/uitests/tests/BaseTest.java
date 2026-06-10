@@ -6,8 +6,12 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Абстрактный базовый класс для всех UI-тестов.
@@ -38,20 +42,45 @@ public abstract class BaseTest {
     protected Waiter waiter;
 
     /**
-     * Инициализирует браузер и Waiter перед каждым тестом.
-     * <p>Конфигурация Chrome загружается из {@code browser.chrome.arguments},
-     * драйвер автоматически управляется через {@link WebDriverManager}.
+     * Инициализирует браузер и {@link Waiter} перед каждым тестом.
+     *
+     * <p>Способ запуска определяется параметром {@code grid.enabled}:
+     * <ul>
+     *   <li><b>Локальный запуск</b> ({@code false}) – используется {@link ChromeDriver}
+     *       с настройками из {@code browser.chrome.arguments}. Драйвер автоматически
+     *       загружается через {@link WebDriverManager}.</li>
+     *   <li><b>Запуск через Selenium Grid</b> ({@code true}) – используется
+     *       {@link RemoteWebDriver}, подключающийся к хабу по адресу
+     *       {@code grid.hub.url}. Настройки Chrome также применяются.</li>
+     * </ul>
+     * Драйвер и Waiter сохраняются в {@link ThreadLocal}, что обеспечивает
+     * корректную работу при параллельном выполнении тестов.
      */
     @BeforeMethod
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        String[] args = ParameterProvider.get("browser.chrome.arguments").split("\\s*,\\s*");
-        options.addArguments(args);
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
+        boolean gridEnabled = Boolean.parseBoolean(ParameterProvider.get("grid.enabled"));
 
-        DRIVER.set(driver);
-        WAITER.set(new Waiter(driver));
+        if (gridEnabled) {
+            String hubUrl = ParameterProvider.get("grid.hub.url");
+            ChromeOptions options = new ChromeOptions();
+            String[] args = ParameterProvider.get("browser.chrome.arguments").split("\\s*,\\s*");
+            options.addArguments(args);
+            try {
+                WebDriver driver = new RemoteWebDriver(new URL(hubUrl), options);
+                DRIVER.set(driver);
+                WAITER.set(new Waiter(driver));
+            } catch (MalformedURLException e) {
+                throw new RuntimeException("Invalid Grid hub URL: " + hubUrl, e);
+            }
+        } else {
+            ChromeOptions options = new ChromeOptions();
+            String[] args = ParameterProvider.get("browser.chrome.arguments").split("\\s*,\\s*");
+            options.addArguments(args);
+            WebDriverManager.chromedriver().setup();
+            WebDriver driver = new ChromeDriver(options);
+            DRIVER.set(driver);
+            WAITER.set(new Waiter(driver));
+        }
 
         this.driver = DRIVER.get();
         this.waiter = WAITER.get();
