@@ -44,4 +44,9 @@
             <class name="com.haritonov.uitests.tests.cookies.CookieTest"/>
         </classes>
     </test>
+    <test name="JavaScript test">
+        <classes>
+            <class name="com.haritonov.uitests.tests.javascript.JavaScriptExecutorTest"/>
+        </classes>
+    </test>
 </suite>

@@ -27,9 +27,10 @@
         </classes>
     </test>
 
-    <test name="Cookies">
+    <test name="Cookies and JavaScript Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.cookies.CookieTest"/>
+            <class name="com.haritonov.uitests.tests.javascript.JavaScriptExecutorTest"/>
         </classes>
     </test>
 </suite>
