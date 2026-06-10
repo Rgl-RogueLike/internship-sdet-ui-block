@@ -1,0 +1,35 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Parallel Suite" parallel="tests" thread-count="2">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
+    </listeners>
+
+    <test name="Home + Navigation Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.homepage.HomePageTest"/>
+            <class name="com.haritonov.uitests.tests.navigation.NavigationTest"/>
+        </classes>
+    </test>
+
+    <test name="Login Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.login.LoginPageTest"/>
+            <class name="com.haritonov.uitests.tests.login.LoginDataProviderTest"/>
+        </classes>
+    </test>
+
+    <test name="Banking Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.banking.BankingManagerPageTest"/>
+            <class name="com.haritonov.uitests.tests.banking.CustomerLoginTest"/>
+            <class name="com.haritonov.uitests.tests.banking.SampleFormTest"/>
+        </classes>
+    </test>
+
+    <test name="Cookies">
+        <classes>
+            <class name="com.haritonov.uitests.tests.cookies.CookieTest"/>
+        </classes>
+    </test>
+</suite>
