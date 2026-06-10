@@ -14,7 +14,7 @@ public class DataProviders {
      */
     @DataProvider(name = "validLoginCredentials")
     public static Object[][] loginCredentials() {
-        return new Object[][] {
+        return new Object[][]{
                 {
                     ParameterProvider.get("login.dataset.valid.username"),
                     ParameterProvider.get("login.dataset.valid.password"),
@@ -32,16 +32,16 @@ public class DataProviders {
     public static Object[][] invalidLoginCredentials() {
         return new Object[][] {
                 {
-                    ParameterProvider.get("login.dataset.invalid.username"),
-                    ParameterProvider.get("login.dataset.invalid.password"),
-                    ParameterProvider.get("login.dataset.invalid.description"),
-                    ParameterProvider.get("login.dataset.invalid.expected.key")
+                        ParameterProvider.get("login.dataset.invalid.username"),
+                        ParameterProvider.get("login.dataset.invalid.password"),
+                        ParameterProvider.get("login.dataset.invalid.description"),
+                        ParameterProvider.get("login.dataset.invalid.expected.key")
                 },
                 {
-                    ParameterProvider.get("login.dataset.wrongpass.username"),
-                    ParameterProvider.get("login.dataset.wrongpass.password"),
-                    ParameterProvider.get("login.dataset.wrongpass.description"),
-                    ParameterProvider.get("login.dataset.wrongpass.expected.key")
+                        ParameterProvider.get("login.dataset.wrongpass.username"),
+                        ParameterProvider.get("login.dataset.wrongpass.password"),
+                        ParameterProvider.get("login.dataset.wrongpass.description"),
+                        ParameterProvider.get("login.dataset.wrongpass.expected.key")
                 }
         };
     }

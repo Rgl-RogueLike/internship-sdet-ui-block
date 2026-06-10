@@ -1,7 +1,6 @@
 # Internship SDET UI Test Automation
 
-Автоматизированные UI-тесты для сайта [Way2Automation](http://way2automation.com/) на Java с использованием Selenium WebDriver, TestNG, Page Object Model и PageFactory.
-
+Автоматизированные UI-тесты для сайтов [Way2Automation](http://way2automation.com/) и [sql-ex.ru](https://www.sql-ex.ru/) на Java с использованием Selenium WebDriver, TestNG, Page Object Model и PageFactory.
 ## Стек технологий
 - **Java 26**
 - **Maven** (сборка и управление зависимостями)
@@ -10,23 +9,36 @@
 - **WebDriverManager** (автоматическое управление драйверами)
 - **JavaFaker** (генерация случайных тестовых данных)
 - **Allure** (генерация отчетов)
+- **AspectJ** (для Allure @Step)
+- **aShot** (скриншоты при падении тестов)
 
 
 ## Настройка перед запуском
 1. Убедитесь, что установлена **JDK 26** и **Maven**.
 2. Все зависимости загружаются автоматически при сборке.
-3. Конфигурация находится в `src/test/resources/configurations/config.properties`.  
-   Там можно изменить:
-    - Базовый URL сайта
-    - Таймауты ожиданий (`explicit.wait`)
-    - Тестовые данные для логинов, сумм и т.д.
-    - Аргументы Chrome (размер окна, отключение уведомлений)
+3. Конфигурация разделена на два файла:
+   - `configurations/settings.properties` – URL, таймауты, аргументы Chrome, путь к cookies, паузы.
+   - `configurations/testdata.properties` – логины, пароли, ожидаемые сообщения.  
+4. Для тестов cookies **обязательно** укажите свои реальные учётные данные от [sql-ex.ru](https://www.sql-ex.ru/) в `testdata.properties`:
+   ```properties
+   sql.ex.username=YOUR_LOGIN
+   sql.ex.password=YOUR_PASSWORD
 
 ## Запуск тестов
 ### Все тесты
 ```bash
 mvn clean test
+
+mvn allure:serve
 ```
+
+### Отчеты Allure
+
+- @Epic, @Feature, @Story – структурируют тесты по функциональности.
+- @Severity – приоритет тестов.
+- @Step – каждый публичный метод Page Object'а описан как шаг.
+- Скриншоты при падении – автоматически прикрепляются к отчёту (слушатель ScreenshotListener).
+- Падающие тесты – класс FailTest содержит несколько намеренно падающих тестов для демонстрации скриншотов.
 
 ## Покрытие тест-кейсов
 
@@ -84,3 +96,19 @@ mvn clean test
 - Поиск по First Name
 - Удаление (кнопка Delete)
 - Проверка, что клиент исчез из таблицы
+
+### Параметризованные тесты (DataProvider)
+- Успешная авторизация с валидными данными
+- Неуспешная авторизация с невалидными данными (неверный пароль, неверный пользователь
+
+### Работа с cookies (sql-ex.ru)
+Единый тест shouldLoginUsingCookiesOrCredentials:
+- При первом запуске выполняет вход через логин/пароль и сохраняет cookies.
+- При последующих запусках загружает cookies и пропускает форму входа.
+
+Cookies хранятся в файле cookies/sql-ex.data.
+  
+### Падающие тесты (демонстрация скриншотов)
+- intentionallyFailingTest
+- loginWithoutUsernameDescriptionShouldFail 
+- customerWithoutAccountShouldNotSeeDepositButton

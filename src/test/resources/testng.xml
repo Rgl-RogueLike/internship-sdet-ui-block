@@ -39,4 +39,9 @@
             <class name="com.haritonov.uitests.tests.fail.FailTest"/>
         </classes>
     </test>
+    <test name="Cookie test">
+        <classes>
+            <class name="com.haritonov.uitests.tests.cookies.CookieTest"/>
+        </classes>
+    </test>
 </suite>
