@@ -46,3 +46,6 @@ allure-report/
 
 ### Cookies ###
 cookies/
+
+### Scripts ###
+/scripts/selenium-server.jar
