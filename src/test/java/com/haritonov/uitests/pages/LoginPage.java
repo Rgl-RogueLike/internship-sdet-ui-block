@@ -188,4 +188,15 @@ public class LoginPage extends BasePage {
         return this;
     }
 
+    /**
+     * Возвращает веб-элемент поля Username, ожидая его видимости.
+     *
+     * @return поле ввода Username
+     */
+    @Step("Получить поле Username")
+    public WebElement getUsernameField() {
+        waiter.waitForVisibility(usernameField);
+        return usernameField;
+    }
+
 }
