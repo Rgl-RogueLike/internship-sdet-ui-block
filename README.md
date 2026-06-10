@@ -11,7 +11,7 @@
 - **Allure** (генерация отчетов)
 - **AspectJ** (для Allure @Step)
 - **aShot** (скриншоты при падении тестов)
-
+- **Selenium Grid** (распределённый и параллельный запуск)
 
 ## Настройка перед запуском
 1. Убедитесь, что установлена **JDK 26** и **Maven**.
@@ -25,13 +25,30 @@
    sql.ex.password=YOUR_PASSWORD
 
 ## Запуск тестов
-### Все тесты
+### Обычный запуск (1 suite, 1 поток)
 ```bash
 mvn clean test
 
 mvn allure:serve
 ```
+### Параллельный запуск одного сьюта (2 потока внутри одного suite)
+```bash
+mvn clean test "-DsuiteXmlFile=src/test/resources/testng-parallel.xml"
+```
 
+### Запуск нескольких сьютов параллельно (через Maven профиль)
+```bash
+mvn clean test -Pparallel-suites
+```
+Этот профиль запускает 4 сьюта из папки suites/ параллельно в 4 потока.
+
+### Запуск через Selenium Grid
+1. Запустите хаб (start-hub.bat) и ноду (start-node.bat) из папки scripts/ 
+2. В settings.properties установите: 
+   ```properties
+   grid.enabled=true
+   ```
+3. Запустите тесты как обычно - они будут выполняться на Grid.
 ### Отчеты Allure
 
 - @Epic, @Feature, @Story – структурируют тесты по функциональности.
@@ -107,8 +124,18 @@ mvn allure:serve
 - При последующих запусках загружает cookies и пропускает форму входа.
 
 Cookies хранятся в файле cookies/sql-ex.data.
+
+### JavaScript Executor
+- Проверка скролла на главной странице (isVerticalScrollPresent)
+- Снятие фокуса с поля Username после ввода текста (removeFocus)
   
 ### Падающие тесты (демонстрация скриншотов)
 - intentionallyFailingTest
 - loginWithoutUsernameDescriptionShouldFail 
 - customerWithoutAccountShouldNotSeeDepositButton
+
+### Параллельный запуск и Selenium Grid
+- Конфигурация testng-parallel.xml для многопоточного запуска одного сьюта.
+- Папка suites/ с отдельными сьютами и Maven-профиль parallel-suites для запуска в 4 потока.
+- Скрипты для развёртывания Selenium Grid Hub и Node (scripts/).
+- Поддержка RemoteWebDriver в BaseTest с переключением через grid.enabled.
