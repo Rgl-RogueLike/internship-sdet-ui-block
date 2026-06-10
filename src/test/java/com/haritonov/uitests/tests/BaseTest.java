@@ -10,22 +10,37 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 /**
- * Абстрактный базовый класс для всех тестов.
- * <p>Перед каждым тестом запускает Chrome с нужными опциями,
- * создаёт экземпляр {@link Waiter} и переходит на базовый URL.
- * После теста закрывает браузер.
+ * Абстрактный базовый класс для всех UI-тестов.
+ *
+ * <p>Предоставляет общую настройку WebDriver, Chrome браузера и {@link Waiter}.
+ * Использует {@link ThreadLocal} для thread-safe хранения драйвера и Waiter,
+ * что позволяет корректно выполнять тесты в параллельном режиме.
+ *
+ * <p>Перед каждым тестом создаётся новый экземпляр {@link ChromeDriver} с
+ * аргументами, прочитанными из конфигурации {@code browser.chrome.arguments},
+ * и открывается базовый URL {@code base.url}.
+ *
+ * <p>После каждого теста драйвер завершает работу и ресурсы очищаются.
  */
 public abstract class BaseTest {
 
-    protected WebDriver driver;
-    protected Waiter waiter;
-
-    public WebDriver getDriver() {
-        return driver;
-    }
+    private static final ThreadLocal<WebDriver> DRIVER = new ThreadLocal<>();
+    private static final ThreadLocal<Waiter> WAITER = new ThreadLocal<>();
 
     /**
-     * Инициализирует WebDriver, Waiter и открывает главную страницу.
+     * Экземпляр WebDriver, доступный в тестах.
+     */
+    protected WebDriver driver;
+
+    /**
+     * Экземпляр Waiter, доступный в тестах.
+     */
+    protected Waiter waiter;
+
+    /**
+     * Инициализирует браузер и Waiter перед каждым тестом.
+     * <p>Конфигурация Chrome загружается из {@code browser.chrome.arguments},
+     * драйвер автоматически управляется через {@link WebDriverManager}.
      */
     @BeforeMethod
     public void setUp() {
@@ -33,18 +48,37 @@ public abstract class BaseTest {
         String[] args = ParameterProvider.get("browser.chrome.arguments").split("\\s*,\\s*");
         options.addArguments(args);
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver(options);
-        waiter = new Waiter(driver);
+        WebDriver driver = new ChromeDriver(options);
+
+        DRIVER.set(driver);
+        WAITER.set(new Waiter(driver));
+
+        this.driver = DRIVER.get();
+        this.waiter = WAITER.get();
         driver.get(ParameterProvider.get("base.url"));
     }
 
     /**
-     * Закрывает браузер после каждого теста.
+     * Закрывает браузер и очищает ресурсы после каждого теста.
      */
     @AfterMethod
-    public void afterSuite() {
-        if (driver != null) {
-            driver.quit();
+    public void tearDown() {
+        WebDriver drv = DRIVER.get();
+        if (drv != null) {
+            drv.quit();
+            DRIVER.remove();
+            WAITER.remove();
         }
+    }
+
+    /**
+     * Возвращает текущий WebDriver.
+     * <p>Используется слушателями (например, {@code ScreenshotListener}) для
+     * доступа к драйверу извне тестового класса.
+     *
+     * @return экземпляр {@link WebDriver}, связанный с текущим потоком
+     */
+    public WebDriver getDriver() {
+        return DRIVER.get();
     }
 }
