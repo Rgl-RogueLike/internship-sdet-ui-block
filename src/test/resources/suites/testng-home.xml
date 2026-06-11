@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Home Suite">
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+        <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
+    </listeners>
+    <test name="Home Page Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.homepage.HomePageTest"/>
+        </classes>
+    </test>
+    <test name="Navigation Tests">
+        <classes>
+            <class name="com.haritonov.uitests.tests.navigation.NavigationTest"/>
+        </classes>
+    </test>
+</suite>

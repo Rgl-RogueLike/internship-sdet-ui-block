@@ -1,51 +1,35 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Way2Automation Suite">
+<suite name="Parallel Suite" parallel="tests" thread-count="2">
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
         <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
     </listeners>
-    <test name="Home Page Tests">
+
+    <test name="Home + Navigation Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.homepage.HomePageTest"/>
-        </classes>
-    </test>
-    <test name="Navigation Tests">
-        <classes>
             <class name="com.haritonov.uitests.tests.navigation.NavigationTest"/>
         </classes>
     </test>
-    <test name="Login Page Tests">
+
+    <test name="Login Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.login.LoginPageTest"/>
+            <class name="com.haritonov.uitests.tests.login.LoginDataProviderTest"/>
         </classes>
     </test>
-    <test name="Banking Manager Tests">
+
+    <test name="Banking Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.banking.BankingManagerPageTest"/>
-        </classes>
-    </test>
-    <test name="Customer Login Tests">
-        <classes>
             <class name="com.haritonov.uitests.tests.banking.CustomerLoginTest"/>
-        </classes>
-    </test>
-    <test name="Sample Form Tests">
-        <classes>
             <class name="com.haritonov.uitests.tests.banking.SampleFormTest"/>
         </classes>
     </test>
-    <test name="Fail test">
-        <classes>
-            <class name="com.haritonov.uitests.tests.fail.FailTest"/>
-        </classes>
-    </test>
-    <test name="Cookie test">
+
+    <test name="Cookies and JavaScript Tests">
         <classes>
             <class name="com.haritonov.uitests.tests.cookies.CookieTest"/>
-        </classes>
-    </test>
-    <test name="JavaScript test">
-        <classes>
             <class name="com.haritonov.uitests.tests.javascript.JavaScriptExecutorTest"/>
         </classes>
     </test>
