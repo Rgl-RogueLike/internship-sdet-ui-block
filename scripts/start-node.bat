@@ -9,5 +9,5 @@ if not exist selenium-server.jar (
     exit /b
 )
 
-java -jar selenium-server.jar node --hub http://192.168.0.62:4444 --max-sessions 2
+java -jar selenium-server.jar node --hub http://192.168.0.62:4444
 pause
