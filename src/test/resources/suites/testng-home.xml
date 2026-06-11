@@ -3,6 +3,7 @@
     <listeners>
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
         <listener class-name="com.haritonov.uitests.listeners.ScreenshotListener"/>
+        <listener class-name="com.haritonov.uitests.listeners.RetryTransformer"/>
     </listeners>
     <test name="Home Page Tests">
         <classes>
