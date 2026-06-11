@@ -145,7 +145,7 @@
                             <properties>
                                 <property>
                                     <name>suitethreadpoolsize</name>
-                                    <value>4</value>
+                                    <value>${thread.pool.size}</value>
                                 </property>
                             </properties>
                         </configuration>
