@@ -81,6 +81,25 @@ mvn clean test -Pparallel-suites
    $env:GRID_ENABLED="true"
    mvn clean test "-DsuiteXmlFile=src/test/resources/testng-parallel.xml"
    ```
+   
+### Проект поддерживает автоматический перезапуск упавших тестов
+
+**Настройка**
+
+Количество попыток перезапуска задается в конфигурации:
+```properties
+retry.max.count=2 # по умолчанию 2 попытки
+```
+**Как это работает**
+- RetryAnalyzer - реализует логику перезапуска тестов: если тест упал, он будет повторяться до указанного количества раз
+- RetryTransformer - автоматически применяет RetryAnalyzer ко всем тестам через IAnnotationTransformer
+### Запуск упавших тестов
+После прогона тестов TestNG генерирует файл testng-failed.xml в папке target/surefire-reports/. Чтобы перезапустить
+упавшие тесты, выполните:
+```bash
+cd scripts
+./run-failed.bat
+```
 ### Отчеты Allure
 
 - @Epic, @Feature, @Story – структурируют тесты по функциональности.
