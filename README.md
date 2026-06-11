@@ -43,12 +43,44 @@ mvn clean test -Pparallel-suites
 Этот профиль запускает 4 сьюта из папки suites/ параллельно в 4 потока.
 
 ### Запуск через Selenium Grid
-1. Запустите хаб (start-hub.bat) и ноду (start-node.bat) из папки scripts/ 
-2. В settings.properties установите: 
-   ```properties
-   grid.enabled=true
+Проект поддерживает запуск тестов на Selenium Grid. Управление режимом запуска осуществляется через переменную окружения `GRID_ENABLED` или параметр в конфигурации.
+
+**Настройка:**
+1. **Переменная окружения:**
+   ```bash
+   # Windows PowerShell
+   $env:GRID_ENABLED="true"
    ```
-3. Запустите тесты как обычно - они будут выполняться на Grid.
+   Переменная имеет приоритет над значением в конфигурации
+2. **Файл конфигурации:**
+   ```properties
+   grid.enabled=false # по умолчанию Grid отключен
+   ```
+### Запуск Grid:
+1. Запустите хаб:
+   ```bash
+   cd scripts
+   ./start-hub.bat # Windows
+   ```
+2. В новом терминале запустите ноду:
+   ```bash
+   cd scripts
+   ./start-node.bat
+   ```
+3. Проверьте статус Grid: http://localhost:4444/ui/
+
+#### Запуск тестов на Grid:
+1. Через скрипт с выбором количества потоков
+   ```bash
+   cd scripts
+   ./run-parallel-tests.bat  # запросит количество потоков и запустит все сьюты из папки suites параллельно
+   ```
+   
+2. Параллельный запуск одного сьюта (testng-parallel.xml)
+   ```bash
+   $env:GRID_ENABLED="true"
+   mvn clean test "-DsuiteXmlFile=src/test/resources/testng-parallel.xml"
+   ```
 ### Отчеты Allure
 
 - @Epic, @Feature, @Story – структурируют тесты по функциональности.
@@ -136,6 +168,6 @@ Cookies хранятся в файле cookies/sql-ex.data.
 
 ### Параллельный запуск и Selenium Grid
 - Конфигурация testng-parallel.xml для многопоточного запуска одного сьюта.
-- Папка suites/ с отдельными сьютами и Maven-профиль parallel-suites для запуска в 4 потока.
+- Папка suites/ с отдельными сьютами и Maven-профиль parallel-suites.
 - Скрипты для развёртывания Selenium Grid Hub и Node (scripts/).
 - Поддержка RemoteWebDriver в BaseTest с переключением через grid.enabled.
