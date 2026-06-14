@@ -179,7 +179,12 @@ Cookies хранятся в файле cookies/sql-ex.data.
 ### JavaScript Executor
 - Проверка скролла на главной странице (isVerticalScrollPresent)
 - Снятие фокуса с поля Username после ввода текста (removeFocus)
-  
+
+### Basic Authentication
+- Открытие страницы с защищённым ресурсом.
+- Использование `HasAuthentication` для автоматической передачи логина и пароля.
+- Нажатие кнопки "Display Image" и проверка, что изображение успешно загрузилось.
+
 ### Падающие тесты (демонстрация скриншотов)
 - intentionallyFailingTest
 - loginWithoutUsernameDescriptionShouldFail 
