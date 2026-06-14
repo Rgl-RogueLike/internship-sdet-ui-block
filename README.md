@@ -179,6 +179,13 @@ Cookies хранятся в файле cookies/sql-ex.data.
 ### JavaScript Executor
 - Проверка скролла на главной странице (isVerticalScrollPresent)
 - Снятие фокуса с поля Username после ввода текста (removeFocus)
+
+### Работа с Alert (Simple Alert и Input Alert)
+- Переключение в iframe с кнопкой Simple Alert, вызов alert и проверка текста сообщения.
+- Подтверждение Simple Alert и возврат из iframe.
+- Переключение на вкладку "Input Alert", вход в соответствующий iframe.
+- Вызов Input Alert, ввод случайного текста и подтверждение.
+- Проверка, что введённый текст отобразился на странице.
   
 ### Падающие тесты (демонстрация скриншотов)
 - intentionallyFailingTest
