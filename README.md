@@ -221,6 +221,11 @@ Cookies хранятся в файле cookies/sql-ex.data.
 ### JavaScript Executor
 - Проверка скролла на главной странице (isVerticalScrollPresent)
 - Снятие фокуса с поля Username после ввода текста (removeFocus)
+- 
+### Drag and Drop (IFrame)
+- Переключение в iframe с элементами перетаскивания.
+- Перетаскивание элемента в принимающую область с помощью `Actions.dragAndDrop()`.
+- Проверка, что текст принимающего элемента изменился на "Dropped!".
   
 ### Падающие тесты (демонстрация скриншотов)
 - intentionallyFailingTest
