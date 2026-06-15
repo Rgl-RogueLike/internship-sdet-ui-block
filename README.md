@@ -23,7 +23,7 @@
    ```properties
    sql.ex.username=YOUR_LOGIN
    sql.ex.password=YOUR_PASSWORD
-
+   ```
 ## Запуск тестов
 ### Обычный запуск (1 suite, 1 поток)
 ```bash
@@ -100,6 +100,48 @@ retry.max.count=2 # по умолчанию 2 попытки
 cd scripts
 ./run-failed.bat
 ```
+
+### Поддержка разных браузеров 
+Проект поддерживает запуск тестов в браузерах **Chrome, Firefox, Edge, Internet Explorer** как локально, так и через Selenium Grid.
+
+1. **Переменная окружения:**
+      ```bash
+      # Windows PowerShell
+      $env:BROWSER_TYPE="firefox"
+   
+      # Windows CMD
+      set BROWSER_TYPE=firefox
+   
+      # Linux/Mac
+      export BROWSER_TYPE=firefox
+      ```
+   Переменная имеет приоритет над значением в конфигурации.
+2. Файл конфигурации:
+   ```properties
+   browser.type=chrome # по умолчанию chrome
+   ```
+   
+#### Создание драйверов:
+- createLocalDriver(browserType) - локальный запуск
+- createRemoteWebDriver(browserType, hubUrl) - запуск через Selenium Grid.
+
+#### Примеры запуска:
+```bash
+  # Локальный запуск в Firefox
+  $env:BROWSER_TYPE="firefox"
+  mvn clean test
+
+  # Запуск в Edge через Grid
+  $env:BROWSER_TYPE="edge"
+  $env:GRID_ENABLED="true"
+  mvn clean test
+
+  # Запуск в Chrome через Grid с параллельными сьютами
+  $env:BROWSER_TYPE="chrome"
+  $env:GRID_ENABLED="true"
+  mvn clean test -Pparallel-suites "-Dthread.pool.size=3"
+```
+
 ### Отчеты Allure
 
 - @Epic, @Feature, @Story – структурируют тесты по функциональности.

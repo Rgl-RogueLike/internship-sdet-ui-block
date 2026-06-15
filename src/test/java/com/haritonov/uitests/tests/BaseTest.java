@@ -1,28 +1,23 @@
 package com.haritonov.uitests.tests;
 
+import com.haritonov.uitests.helpers.DriverFactory;
 import com.haritonov.uitests.helpers.ParameterProvider;
 import com.haritonov.uitests.helpers.Waiter;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
  * Абстрактный базовый класс для всех UI-тестов.
  *
- * <p>Предоставляет общую настройку WebDriver, Chrome браузера и {@link Waiter}.
+ * <p>Предоставляет общую настройку WebDriver и {@link Waiter}.
  * Использует {@link ThreadLocal} для thread-safe хранения драйвера и Waiter,
  * что позволяет корректно выполнять тесты в параллельном режиме.
  *
- * <p>Перед каждым тестом создаётся новый экземпляр {@link ChromeDriver} с
- * аргументами, прочитанными из конфигурации {@code browser.chrome.arguments},
- * и открывается базовый URL {@code base.url}.
+ * <p>Тип браузера определяется параметром {@code browser.type} в конфигурации
+ * (chrome, firefox, edge, ie). Создание драйвера делегируется в
+ * {@link DriverFactory}, которая поддерживает локальный и удалённый (Grid) запуск.
  *
  * <p>После каждого теста драйвер завершает работу и ресурсы очищаются.
  */
@@ -44,23 +39,28 @@ public abstract class BaseTest {
     /**
      * Инициализирует браузер и {@link Waiter} перед каждым тестом.
      *
+     * <p>Тип браузера определяется методом {@link #getBrowserType()}:
+     * сначала проверяется переменная окружения {@code BROWSER_TYPE},
+     * при её отсутствии — значение из конфигурации {@code browser.type}.
+     *
      * <p>Способ запуска определяется методом {@link #isGridEnabled()}:
      * <ul>
-     *   <li><b>Локальный запуск</b> – {@link #initLocalDriver()} создаёт
-     *       {@link ChromeDriver} с настройками из {@code browser.chrome.arguments}.</li>
-     *   <li><b>Запуск через Selenium Grid</b> – {@link #initRemoteDriver()} создаёт
-     *       {@link RemoteWebDriver}, подключающийся к хабу по адресу
-     *       {@code grid.hub.url}.</li>
+     *   <li><b>Локальный запуск</b> – {@link #initLocalDriver(String)} создаёт
+     *       драйвер через {@link DriverFactory#createLocalDriver(String)}.</li>
+     *   <li><b>Запуск через Selenium Grid</b> – {@link #initRemoteDriver(String)}
+     *       создаёт {@link RemoteWebDriver} через
+     *       {@link DriverFactory#createRemoteWebDriver(String, String)}.</li>
      * </ul>
      * Драйвер и Waiter сохраняются в {@link ThreadLocal}, что обеспечивает
      * корректную работу при параллельном выполнении тестов.
      */
     @BeforeMethod
     public void setUp() {
+        String browserType = getBrowserType();
         if (isGridEnabled()) {
-            initRemoteDriver();
+            initRemoteDriver(browserType);
         } else {
-            initLocalDriver();
+            initLocalDriver(browserType);
         }
         this.driver = DRIVER.get();
         this.waiter = WAITER.get();
@@ -107,35 +107,45 @@ public abstract class BaseTest {
     }
 
     /**
-     * Инициализирует RemoteWebDriver для запуска тестов через Selenium Grid.
+     * Инициализирует удалённый WebDriver для запуска тестов через Selenium Grid.
      * <p>Адрес хаба берётся из конфигурации {@code grid.hub.url}.
-     * В случае некорректного URL выбрасывается RuntimeException.
+     * Тип браузера передаётся в {@link DriverFactory#createRemoteWebDriver(String, String)}.
+     *
+     * @param browserType тип браузера (chrome, firefox, edge, ie)
      */
-    private void initRemoteDriver() {
+    private void initRemoteDriver(String browserType) {
         String hubUrl = ParameterProvider.get("grid.hub.url");
-        ChromeOptions options = new ChromeOptions();
-        String[] args = ParameterProvider.get("browser.chrome.arguments").split("\\s*,\\s*");
-        options.addArguments(args);
-        try {
-            WebDriver driver = new RemoteWebDriver(new URL(hubUrl), options);
-            DRIVER.set(driver);
-            WAITER.set(new Waiter(driver));
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Invalid Grid hub URL: " + hubUrl, e);
-        }
+        WebDriver driver = DriverFactory.createRemoteWebDriver(browserType, hubUrl);
+        driver.manage().window().maximize();
+        DRIVER.set(driver);
+        WAITER.set(new Waiter(driver));
     }
 
     /**
-     * Инициализирует локальный ChromeDriver.
-     * <p>Драйвер автоматически загружается через {@link WebDriverManager}.
+     * Инициализирует локальный WebDriver.
+     * <p>Тип браузера передаётся в {@link DriverFactory#createLocalDriver(String)}.
+     *
+     * @param browserType тип браузера (chrome, firefox, edge, ie)
      */
-    private void initLocalDriver() {
-        ChromeOptions options = new ChromeOptions();
-        String[] args = ParameterProvider.get("browser.chrome.arguments").split("\\s*,\\s*");
-        options.addArguments(args);
-        WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver(options);
+    private void initLocalDriver(String browserType) {
+        WebDriver driver = DriverFactory.createLocalDriver(browserType);
+        driver.manage().window().maximize();
         DRIVER.set(driver);
         WAITER.set(new Waiter(driver));
+    }
+
+    /**
+     * Определяет тип браузера для запуска тестов.
+     * <p>Сначала проверяет переменную окружения {@code BROWSER_TYPE},
+     * при её отсутствии — значение из конфигурации {@code browser.type}.
+     *
+     * @return строку с типом браузера (chrome, firefox, edge, ie)
+     */
+    private String getBrowserType() {
+        String browserEnv = System.getenv("BROWSER_TYPE");
+        if (browserEnv != null && !browserEnv.isEmpty()) {
+            return browserEnv.toLowerCase();
+        }
+        return ParameterProvider.get("browser.type");
     }
 }
