@@ -23,7 +23,7 @@
    ```properties
    sql.ex.username=YOUR_LOGIN
    sql.ex.password=YOUR_PASSWORD
-
+   ```
 ## Запуск тестов
 ### Обычный запуск (1 suite, 1 поток)
 ```bash
@@ -100,6 +100,48 @@ retry.max.count=2 # по умолчанию 2 попытки
 cd scripts
 ./run-failed.bat
 ```
+
+### Поддержка разных браузеров 
+Проект поддерживает запуск тестов в браузерах **Chrome, Firefox, Edge, Internet Explorer** как локально, так и через Selenium Grid.
+
+1. **Переменная окружения:**
+      ```bash
+      # Windows PowerShell
+      $env:BROWSER_TYPE="firefox"
+   
+      # Windows CMD
+      set BROWSER_TYPE=firefox
+   
+      # Linux/Mac
+      export BROWSER_TYPE=firefox
+      ```
+   Переменная имеет приоритет над значением в конфигурации.
+2. Файл конфигурации:
+   ```properties
+   browser.type=chrome # по умолчанию chrome
+   ```
+   
+#### Создание драйверов:
+- createLocalDriver(browserType) - локальный запуск
+- createRemoteWebDriver(browserType, hubUrl) - запуск через Selenium Grid.
+
+#### Примеры запуска:
+```bash
+  # Локальный запуск в Firefox
+  $env:BROWSER_TYPE="firefox"
+  mvn clean test
+
+  # Запуск в Edge через Grid
+  $env:BROWSER_TYPE="edge"
+  $env:GRID_ENABLED="true"
+  mvn clean test
+
+  # Запуск в Chrome через Grid с параллельными сьютами
+  $env:BROWSER_TYPE="chrome"
+  $env:GRID_ENABLED="true"
+  mvn clean test -Pparallel-suites "-Dthread.pool.size=3"
+```
+
 ### Отчеты Allure
 
 - @Epic, @Feature, @Story – структурируют тесты по функциональности.
@@ -179,6 +221,25 @@ Cookies хранятся в файле cookies/sql-ex.data.
 ### JavaScript Executor
 - Проверка скролла на главной странице (isVerticalScrollPresent)
 - Снятие фокуса с поля Username после ввода текста (removeFocus)
+- 
+### Drag and Drop (IFrame)
+- Переключение в iframe с элементами перетаскивания.
+- Перетаскивание элемента в принимающую область с помощью `Actions.dragAndDrop()`.
+- Проверка, что текст принимающего элемента изменился на "Dropped!".
+
+### Работа с вкладками (Tabs)
+- Открытие страницы с iframe, переключение в iframe.
+- Нажатие ссылки "New Browser Tab", открывающей вторую вкладку.
+- Переключение на вторую вкладку и повторное нажатие ссылки для открытия третьей вкладки.
+- Проверка, что общее количество вкладок увеличилось на 2.
+
+### Работа с Alert (Simple Alert и Input Alert)
+- Переключение в iframe с кнопкой Simple Alert, вызов alert и проверка текста сообщения.
+- Подтверждение Simple Alert и возврат из iframe.
+- Переключение на вкладку "Input Alert", вход в соответствующий iframe.
+- Вызов Input Alert, ввод случайного текста и подтверждение.
+- Проверка, что введённый текст отобразился на странице.
+  
 
 ### Basic Authentication
 - Открытие страницы с защищённым ресурсом.
