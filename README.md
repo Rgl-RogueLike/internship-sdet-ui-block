@@ -240,6 +240,12 @@ Cookies хранятся в файле cookies/sql-ex.data.
 - Вызов Input Alert, ввод случайного текста и подтверждение.
 - Проверка, что введённый текст отобразился на странице.
   
+
+### Basic Authentication
+- Открытие страницы с защищённым ресурсом.
+- Использование `HasAuthentication` для автоматической передачи логина и пароля.
+- Нажатие кнопки "Display Image" и проверка, что изображение успешно загрузилось.
+
 ### Падающие тесты (демонстрация скриншотов)
 - intentionallyFailingTest
 - loginWithoutUsernameDescriptionShouldFail 
